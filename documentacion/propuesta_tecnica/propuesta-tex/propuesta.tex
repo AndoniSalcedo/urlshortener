@@ -152,11 +152,34 @@ Se han analizado las caracteristicas del equipo de trabajo y los requerimientos 
         \\
     \hline
     
-    Funcionalidad & adfadfasdfasdf\\
+    Funcionalidad &
+    \begin{itemize}
+        \item La información que se necesita se obtiene previamente, por ejemplo, en el momento en que el usuario se identifica.
+        \item A la hora realizar una operación, se lanzará un proceso asíncrono que se encargue de actualizar la lista a mostrar.
+        \item La lista de URIs se debe devolver en un tiempo máximo configurable.
+    \end{itemize} &
         
-    Escalabilidad & fafadfa \\
+    Escalabilidad\\ &
+    5:
+    \begin{itemize}
+        \item No necesita escalar.
+        
+    \end{itemize} 
+    10:
+    \begin{itemize}
+        \item La información que se necesita se obtiene previamente, por ejemplo, en el momento en que el usuario se identifica.
+		
+		\item A la hora realizar una operación, se lanzará un proceso asíncrono que se encargue de actualizar la lista a mostrar.
 
-    Profesionalidad & dfasdfadsasdf \\
+		\item La lista de URIs se debe devolver en un tiempo máximo configurable.
+    \end{itemize} &
+
+    Profesionalidad & 
+    \begin{itemize}
+        \item El API expuesto al usuario tendrá pruebas automáticas que verificarán el cumplimiento.
+	    \item Las pruebas se centrarán en la integración de la API, de tal forma que se comprobará el estado de la lista mostrada al usuario tras realizar las distintas operaciones disponibles.
+        \item Se documentará apropiadamente el código del API expuesto al usuario.
+    \end{itemize}
 
     \end{tabulary}
 \end{table}
