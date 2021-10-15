@@ -30,7 +30,6 @@
 \pagebreak
  
 %// TODO: pequeña introduccion para cada apartado
-
 \section*{Objetivos}
 
 % // TODO: hacer objetivos
@@ -60,7 +59,7 @@
     \centering
     \settowidth\tymin{\textbf{Activities}}
     \setlength\extrarowheight{5pt}
-    \begin{tabulary}{\textwidth}{ C C C C}
+    \begin{tabulary}{\textwidth}{ C C L C}
         \textbf{ID} & 
         \textbf{Peso} & 
         \textbf{Funcionalidad} & 
@@ -104,7 +103,7 @@
     \centering
     \settowidth\tymin{\textbf{Funcionalidad}}
     \setlength\extrarowheight{5pt}
-    \begin{tabulary}{\textwidth}{ C C }
+    \begin{tabulary}{\textwidth}{ C L }
         \textbf{F1} & La aplicación implementará un chat grupal en el que se podrán compartir enlaces con otras personas que usen la aplicación.
         \\
     \hline
@@ -123,7 +122,7 @@
     \centering
     \settowidth\tymin{\textbf{Funcionalidad}}
     \setlength\extrarowheight{5pt}
-    \begin{tabulary}{\textwidth}{ C C }
+    \begin{tabulary}{\textwidth}{ C L }
         \textbf{F2} & La aplicación soportará un inicio de sesión.
         \\
     \hline
@@ -142,7 +141,7 @@
     \centering
     \settowidth\tymin{\textbf{Funcionalidad}}
     \setlength\extrarowheight{5pt}
-    \begin{tabulary}{\textwidth}{ C C }
+    \begin{tabulary}{\textwidth}{ C L }
         \textbf{F3} & Se incluye un sistema de redirección para que el usuario pueda monetizar el número de clicks sobre sus uri's.
         \\
     \hline
@@ -161,16 +160,25 @@
     \centering
     \settowidth\tymin{\textbf{Funcionalidad}}
     \setlength\extrarowheight{5pt}
-    \begin{tabulary}{\textwidth}{ C C }
+    \begin{tabulary}{\textwidth}{ C L }
         \textbf{F4} & La aplicación verificará que la uri que el usuario quiere crear es alcanzable. 
         \\
     \hline
     
-    Funcionalidad & adfadfasdfasdf\\
+    Funcionalidad & Solo se puede crear una URI acortada si se verifica que una petición HTTP GET
+    a la URI original devuelve una respuesta con estado 200.\\
         
-    Escalabilidad & fafadfa \\
+    Escalabilidad & crea la URI acortada pero no se activa; en un hilo de ejecución separado se
+    verifica que la URI original es alcanzable mediante una petición http GET que debe devolver
+    una respuesta con estado 200 en un tiempo máximo configurable; si es alcanzable la URI
+    acortada se activa, si no lo es la URI acortada se marca como inválida. \\
 
-    Profesionalidad & dfasdfadsasdf \\
+    Profesionalidad & toda la funcionalidad está cubierta por pruebas automáticas de unidad u de
+    integración que comprueban al menos dos casos (URI alcanzable, URI no alcanzable), el API
+    relacionado está documentado utilizando Open API, hay una consola Web interactiva que
+    visualiza dicha documentación y que permite probar dicha API y hay documentación en
+    AsciiDoc explicando el funcionamiento del código que ha sido convertida a HTML5 con
+    Asciidoctor. \\
 
     \end{tabulary}
     
