@@ -7,7 +7,8 @@
 \usepackage{subcaption}    
 \usepackage{geometry}
 \usepackage{tabulary}
-
+\usepackage{tabto}
+ 
 \geometry{
    a4paper,
    total={170mm,257mm},
@@ -32,7 +33,7 @@
      \begin{subfigure}[b]{0.49\textwidth}
         \centering
          \includegraphics[width=0.5\textwidth]{../images/Andoni.jpeg}
-         \caption*{\textbf{Lider}: Salcedo Navarro, Andoni (785649)}
+         \caption*{\textbf{Líder}: Salcedo Navarro, Andoni (785649)}
      \end{subfigure}
      \hfill
      \begin{subfigure}[b]{0.49\textwidth}
@@ -43,7 +44,7 @@
      \hfill
      \begin{subfigure}[b]{0.49\textwidth}
         \centering
-        \includegraphics[width=0.5\textwidth]{../images/Andoni.jpeg}
+        \includegraphics[width=0.5\textwidth]{../images/Ruben.jpeg}
         \caption*{Subías Rodríguez, Rubén (759406)}
      \end{subfigure}
      \hfill
@@ -52,33 +53,33 @@
         \includegraphics[width=0.5\textwidth]{../images/Andoni.jpeg}
         \caption*{Velasco Calvo, Isaac (758986)}
      \end{subfigure}
-
+ 
     \end{figure}
-
+ 
 \pagebreak
  
 \section*{Objetivos}
-
-Se han analizado las caracteristicas del equipo de trabajo y los requerimientos que son necesarios para afrontar el proyecto y se ha llegado a la conclusión de que los objetivos del equipo de cara al proyecto son los siguientes:
-
+ 
+Se han analizado las características del equipo de trabajo y los requerimientos que son necesarios para afrontar el proyecto y se ha llegado a la conclusión de que los objetivos del equipo de cara al proyecto son los siguientes:
+ 
 \begin{itemize}
-    \item O1. Ser capaz de identificar las necesidades para desarrollar una aplicación Web que se pueda despliegar en producción.
+    \item O1. Ser capaz de identificar las necesidades para desarrollar una aplicación Web que se pueda desplegar en producción.
     \item O2. Ser capaz de adaptar las nuevas funcionalidades propuestas y desplegarlas en el sistemas web ya funcional.
-    \item O3. Comprender como funcionan las pasarelas publicitarias para poder monetizar la aplicación.
-    \item O4. Comprensión de las arquitectura detras de los  canales de comunicación multicast.
-    \item O5. Entender de como gestinar el almacenamiento y encriptado de datos sensibles.
+    \item O3. Comprender cómo funcionan las pasarelas publicitarias para poder monetizar la aplicación.
+    \item O4. Comprensión de las arquitectura detrás de los  canales de comunicación multicast.
+    \item O5. Entender cómo gestionar el almacenamiento y encriptado de datos sensibles.
     \item O6. Aprender a utilizar los conceptos de UX/UI para que la usabilidad de la aplicación sea la adecuada para el usuario final.
 \end{itemize}
-
+ 
 \section*{Funcionalidades}
-
+ 
 \begin{itemize}
-    \item F1. La aplicación implementará un chat grupal en el que se podrán compartir enlaces con otras personas que usen la aplicación (O1,O2,O4). Con el objetivo de aprender como implementar canales de comunicación bidireccionales.
-    \item F2. La aplicación soportará un inicio de sesión (O1,O2,O5,O6). Con el objetivo de que cada usuario pueda acceder a sus uri's creadas para poder modificarlas, compartirlas, añadir, eliminar, monetizar, con la finalidad de entender como se realiza el control de sesión y gestión de contraseñas en un nuevo framework.
-    \item F3. Se incluye un sistema de redirección para que el usuario pueda monetizar el número de clicks sobre sus uri's (O1,O3). Con el objetivo de entender como se crea un modelo de negocio real a partir de una aplicación.
-    \item F4. La aplicación verificará que la uri que el usuario quiere crear es alcanzable (O2,O5). El objetivo es aprender como se puede comprobar si una redirección es valida, para evitar redirecciones dañinas o inexistentes.
+    \item F1. La aplicación implementará un chat grupal en el que se podrán compartir enlaces con otras personas que usen la aplicación (O1,O2,O4). Con el objetivo de aprender cómo implementar canales de comunicación bidireccionales.
+    \item F2. La aplicación soportará un inicio de sesión (O1,O2,O5,O6). Con el objetivo de que cada usuario pueda acceder a sus uri 's creadas para poder modificarlas, compartirlas, añadir, eliminar, monetizar, con la finalidad de entender cómo se realiza el control de sesión y gestión de contraseñas en un nuevo framework.
+    \item F3. Se incluye un sistema de redirección para que el usuario pueda monetizar el número de clicks sobre sus usuarios (O1,O3). Con el objetivo de entender cómo se crea un modelo de negocio real a partir de una aplicación.
+    \item F4. La aplicación verificará que la uri que el usuario quiere crear es alcanzable (O2,O5). El objetivo es aprender cómo se puede comprobar si una redirección es válida, para evitar redirecciones dañinas o inexistentes.
 \end{itemize}
-
+ 
 \begin{table}[hbtp]
     \footnotesize
     \centering
@@ -108,18 +109,18 @@ Se han analizado las caracteristicas del equipo de trabajo y los requerimientos 
     \hline
         F4 &
         10 &
-        La aplicación verificará que la uri que el usuario que quiere crear es alcanzable. &
+        La aplicación verificará que la uri que el usuario quiere crear es alcanzable. &
         O2, O5
-
+ 
     \end{tabulary}
     \caption{Tabla de reparto de pesos.}
 \end{table}
-
+ 
 \pagebreak
-
+ 
 \section*{Orientaciones sobre la descripción de funcionalidades}
-
-
+ 
+ 
 \begin{table}[hbtp]
     \footnotesize
     \centering
@@ -130,18 +131,30 @@ Se han analizado las caracteristicas del equipo de trabajo y los requerimientos 
         \\
     \hline
     
-    Cumplimiento & Los usuarios pueden entrar a un chat y en el pueden interactuar entre ellos AND Todos los usuarios participantes en el chat reciben todos los mensajes AND Se pueden compartir links de los enlaces recortados de cada usuario en el chat\\
+    Cumplimiento &
+     \labelitemi \quad Los usuarios pueden entrar a un chat y en él pueden interactuar entre ellos && 
+     \labelitemi \quad Todos los usuarios participantes en el chat reciben todos los mensajes && 
+     \labelitemi \quad Se pueden compartir links de los enlaces recortados de cada usuario en el chat\\
         
-    Escalabilidad & 5 - No necesita escalar
-    10 - Cumplor nivel 5 AND El chat dispondrá al usuario emoticonos para poder enviarlos AND El chat marcará la hora a la que se recibieron los mensajes
-    15 - Cumplor nivel 10 AND El chat hará entender al usuario que su mensaje ha sido mandado con exito AND El chat permitirá deslizar la lista de mensajes para poder ver los que se mandaron con anterioridad
-    \\
-
-    Profesionalidad & Si eta funcionalidad se implementa con un API Web, la parte expuesta al usuaro está documentado con Open API 3.0 AND El API expuesto al usuario tendrá pruebas automáticas que verificarán el cumplimiento AND El código del API expuesto al usuario estará documentado\\
-
+    Escalabilidad & 
+    5: && 
+        \quad \labelitemi \quad No necesita escalar &&
+    10: &&
+        \quad \labelitemi \quad Cumplor nivel 5 && 
+        \quad \labelitemi \quad El chat dispondrá al usuario emoticonos para poder enviarlos &&
+        \quad \labelitemi \quad El chat marcará la hora a la que se recibieron los mensajes &&
+    15: &&
+        \quad \labelitemi \quad Cumplor nivel 10 &&
+        \quad \labelitemi \quad El chat hará entender al usuario que su mensaje ha sido mandado con exito &&
+        \quad \labelitemi \quad El chat permitirá deslizar la lista de mensajes para poder ver los que se mandaron con anterioridad\\
+ 
+    Profesionalidad &
+    
+    Si esta funcionalidad se implementa con un API Web, la parte expuesta al usuario está documentado con Open API 3.0 AND El API expuesto al usuario tendrá pruebas automáticas que verificarán el cumplimiento AND El código del API expuesto al usuario estará documentado\\
+ 
     \end{tabulary}
 \end{table}
-
+ 
 \begin{table}[hbtp]
     \footnotesize
     \centering
@@ -152,58 +165,50 @@ Se han analizado las caracteristicas del equipo de trabajo y los requerimientos 
         \\
     \hline
     
-    Funcionalidad &
-    \begin{itemize}
-        \item La información que se necesita se obtiene previamente, por ejemplo, en el momento en que el usuario se identifica.
-        \item A la hora realizar una operación, se lanzará un proceso asíncrono que se encargue de actualizar la lista a mostrar.
-        \item La lista de URIs se debe devolver en un tiempo máximo configurable.
-    \end{itemize} &
+    Cumplimiento &
+        \labelitemi \quad La información que se necesita se obtiene previamente, por ejemplo, en el momento en que el usuario se identifica. &&
+        \labelitemi \quad A la hora realizar una operación, se lanzará un proceso asíncrono que se encargue de actualizar la lista a mostrar. &&
+        \labelitemi \quad La lista de URIs se debe devolver en un tiempo máximo configurable. \\
         
-    Escalabilidad\\ &
-    5:
-    \begin{itemize}
-        \item No necesita escalar.
-        
-    \end{itemize} 
-    10:
-    \begin{itemize}
-        \item La información que se necesita se obtiene previamente, por ejemplo, en el momento en que el usuario se identifica.
+    Escalabilidad &
+    5: &&
+        \quad \labelitemi \quad No necesita escalar. &&
+         
+    10: &&
+        \quad \labelitemi \quad La información que se necesita se obtiene previamente, por ejemplo, en el momento en que el usuario se identifica. &&
 		
-		\item A la hora realizar una operación, se lanzará un proceso asíncrono que se encargue de actualizar la lista a mostrar.
-
-		\item La lista de URIs se debe devolver en un tiempo máximo configurable.
-    \end{itemize} &
-
+        \quad \labelitemi \quad A la hora realizar una operación, se lanzará un proceso asíncrono que se encargue de actualizar la lista a mostrar. &&
+ 
+        \quad \labelitemi \quad La lista de URIs se debe devolver en un tiempo máximo configurable. \\
+ 
     Profesionalidad & 
-    \begin{itemize}
-        \item El API expuesto al usuario tendrá pruebas automáticas que verificarán el cumplimiento.
-	    \item Las pruebas se centrarán en la integración de la API, de tal forma que se comprobará el estado de la lista mostrada al usuario tras realizar las distintas operaciones disponibles.
-        \item Se documentará apropiadamente el código del API expuesto al usuario.
-    \end{itemize}
-
+    \labelitemi \quad El API expuesto al usuario tendrá pruebas automáticas que verificarán el cumplimiento. &&
+    \labelitemi \quad Las pruebas se centrarán en la integración de la API, de tal forma que se comprobará el estado de la lista mostrada al usuario tras realizar las distintas operaciones disponibles. &&
+    \labelitemi \quad Se documentará apropiadamente el código del API expuesto al usuario.
     \end{tabulary}
 \end{table}
-
+ 
+ 
 \begin{table}[hbtp]
     \footnotesize
     \centering
     \settowidth\tymin{\textbf{Funcionalidad}}
     \setlength\extrarowheight{5pt}
     \begin{tabulary}{\textwidth}{ C L }
-        \textbf{F3} & Se incluye un sistema de redirección para que el usuario pueda monetizar el numero de clicks sobre sus URIs
+        \textbf{F3} & Se incluye un sistema de redirección para que el usuario pueda monetizar el número de clicks sobre sus URIs
         \\
     \hline
     
-    Funcionalidad &
+    Cumplimiento &
     \begin{itemize}
         \item El usuario debe poder crear nuevas URIs, las cuales se guardaran en el servidor Web, basadas en URIs externas y alcanzables
-
-        \item El usuario crea estas URIs a traves de una petición HTTP con el servidor Web.
-
+ 
+        \item El usuario crea estas URIs a través de una petición HTTP con el servidor Web.
+ 
         \item Estas nuevas URIs generadas deben de guardarse en el servidor Web, y también se tiene que guardar que usuario la ha generado.
-
+ 
         \item Opcionalmente, el usuario puede decidir que debe recibir "puntos" en su cuenta por cada vez que una de las URIs generadas por este es usada.
-
+ 
         \item Otro usuario, al acceder a una de las URIs generadas, será redirigido a una página de espera, donde tendrá que esperar 5 segundos para continuar a la URI sin "shortening".
     \end{itemize} &
         
@@ -219,7 +224,7 @@ Se han analizado las caracteristicas del equipo de trabajo y los requerimientos 
 		
 		\item Una nueva petición de "shortening" de URI, tipo HTTP POST, se ejecuta en un nuevo hilo paralelo, donde este realiza la comprobación de validez de la URI dada por el usuario, la generación de una nueva URI y su guardado en el servidor Web.
 		
-        \item Entrar en la URI acortada crea un nuevo hilo en el servidor Web, el cual, asincronicamente al usuario, le da un punto a quien creo la URI acortada.
+        \item Entrar en la URI acortada crea un nuevo hilo en el servidor Web, el cual, asincrónicamente al usuario, le da un punto a quien creó la URI acortada.
     \end{itemize} 
     15:
     \begin{itemize}
@@ -227,7 +232,7 @@ Se han analizado las caracteristicas del equipo de trabajo y los requerimientos 
         
         \item La petición de "shortening" es gestionada primero por un hilo, el cual añade a una cola, global en el servidor Web, la petición en cuestión.
         
-        \item Otro hilo distrbuye las peticiones de la cola entre una serie de hilos workers, los cuales realizan las funciones de comprobación de validez, generación de URIs y guardado en el servidor Web.
+        \item Otro hilo distribuye las peticiones de la cola entre una serie de hilos workers, los cuales realizan las funciones de comprobación de validez, generación de URIs y guardado en el servidor Web.
         
         \item La página de espera al acceder a una URI acortada contiene anuncios de verdad, los cuales generan dinero.
 	\end{itemize} 
@@ -235,7 +240,7 @@ Se han analizado las caracteristicas del equipo de trabajo y los requerimientos 
     \begin{itemize}
         \item Cumple el nivel 15
         
-        \item La comprobación y el guardado de la URI generada en el servidor Web se realizan de forma asincronica tras generar la URI y remitirsela al usuario. 
+        \item La comprobación y el guardado de la URI generada en el servidor Web se realizan de forma asincrónica tras generar la URI y remitirsela al usuario. 
         
         \item Esta URI no es funcional hasta que los dos procesos anteriores terminen.
 	\end{itemize}
@@ -244,45 +249,116 @@ Se han analizado las caracteristicas del equipo de trabajo y los requerimientos 
         \item Cumple el nivel 20
         
         \item El acceso a una URI acortada y el aumento de puntos que tiene un usuario se realiza también con una arquitectura Master-Worker.
-
+ 
         \item Aquellos puntos obtenidos por un usuario con sus URIs personales pueden ser canjeados por dinero real con una petición HTTP.
 	\end{itemize} &
-
+ 
     Profesionalidad & 
     \begin{itemize}
-        \item La API de las peticiones HTML de creación de nuevas URIs debe estar documentado.
-	    \item Debe haber una serie de pruebas automaticas sobre la API de creación de nuevas URIs.
+        \item La API de las peticiones HTML de creación de nuevas URIs debe estar documentada.
+	    \item Debe haber una serie de pruebas automáticas sobre la API de creación de nuevas URIs.
     \end{itemize}
-
+ 
     \end{tabulary}
 \end{table}
-
+ 
 \begin{table}[hbtp]
     \footnotesize
     \centering
     \settowidth\tymin{\textbf{Funcionalidad}}
     \setlength\extrarowheight{5pt}
     \begin{tabulary}{\textwidth}{ C L }
-        \textbf{F4} & La aplicación verificará que la uri que el usuario quiere crear es alcanzable. 
+        \textbf{F4} & La aplicación verificar a que la uri que el usuario quiere crear es alcanzable
         \\
     \hline
     
-    Funcionalidad & Solo se puede crear una URI acortada si se verifica que una petición HTTP GET
-    a la URI original devuelve una respuesta con estado 200.\\
+    Cumplimiento &
+    \begin{itemize}
+        \item La aplicación verificará al crear la URL que esta es alcanzable (se
+        puede hacer una petición http GET que en un tiempo razonable
+        devuelve una respuesta 200).
+ 
+        \item Si esta funcionalidad se implementa con un API Web su
+        implementación será consistente con la semántica de http
+ 
+        \item POST /link comprueba que la URL es alcanzable y si no lo es devuelve
+        una respuesta con un error 400.
+ 
+        \item GET /{hash} nunca podrá redirigir a una URL que antes no se haya
+        comprobado que sea alcanzable. Si el hash está registrado pero la
+        URL de destino no está verificada se devuelve una respuesta con un
+        error 400.
+ 
+        \item Si alguna de las dos peticiones anteriores devuelve errores de tipo
+        400 por más de un motivo deberá devolver un objeto JSON
+        especificando el motivo concreto del error del usuario.
+    \end{itemize} &
         
-    Escalabilidad & crea la URI acortada pero no se activa; en un hilo de ejecución separado se
-    verifica que la URI original es alcanzable mediante una petición http GET que debe devolver
-    una respuesta con estado 200 en un tiempo máximo configurable; si es alcanzable la URI
-    acortada se activa, si no lo es la URI acortada se marca como inválida. \\
-
-    Profesionalidad & toda la funcionalidad está cubierta por pruebas automáticas de unidad u de
-    integración que comprueban al menos dos casos (URI alcanzable, URI no alcanzable), el API
-    relacionado está documentado utilizando Open API, hay una consola Web interactiva que
-    visualiza dicha documentación y que permite probar dicha API y hay documentación en
-    AsciiDoc explicando el funcionamiento del código que ha sido convertida a HTML5 con
-    Asciidoctor.
+    Escalabilidad\\ &
+    5:
+    \begin{itemize}
+        \item No necesita escalar
+        
+    \end{itemize} 
+    10:
+    \begin{itemize}
+        \item Cumple el nivel 5
+		
+		\item El servidor devuelve inmediatamente la URL acortada de forma
+        condicional ya que su verificación la va a realizar algún proceso
+        asíncrono
+		
+        \item La URL acortada no estará operativa mientras que la URL no sea
+        validada
+    \end{itemize} 
+    15:
+    \begin{itemize}
+        \item Cumple el nivel 10
+        
+        \item El trabajo asíncrono de verificación estará gestionado por una
+        cola de tareas en la que se publicará trabajos
+        
+        \item Una máquina cliente se subscribirá a la cola de tareas para
+        realizar trabajos de verificación
+        
+        \item El resultado de la verificación se devolverá por otra cola de
+        tareas
+ 
+ 
+	\end{itemize} 
+    20:
+    \begin{itemize}
+        \item El trabajo anterior se realizará por dos máquinas clientes en
+        lugar de una
+        
+        \item Las peticiones de verificación utilizarán librerías de tolerancia a
+        fallos y tendrán limitadas el número de peticiones por segundo
+        
+        \item Se asegurará de alguna manera que si una máquina cliente se
+        cae todas las verificaciones que estaban en proceso se volverán
+        a realizar
+	\end{itemize}
+    25:
+    \begin{itemize}
+        \item Cumple el nivel 20
+        
+        \item Las máquinas del punto anterior expondrán información sobre
+        su nivel de carga de trabajo
+ 
+        \item Una aplicación monitorizará esta información y creará o apagará
+        máquinas de una de forma automática para asegurar que
+        siempre hay una máquina disponible y que solo cuando sea
+        necesario hay dos
+	\end{itemize} &
+ 
+    Profesionalidad & 
+    \begin{itemize}
+        \item La API de las peticiones HTML de creación de nuevas URIs debe estar documentada.
+	    \item Debe haber una serie de pruebas automáticas sobre la API de creación de nuevas URIs.
+    \end{itemize}
+ 
     \end{tabulary}
-    
 \end{table}
  
 \end{document}
+ 
