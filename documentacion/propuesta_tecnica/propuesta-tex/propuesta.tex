@@ -18,7 +18,7 @@
 }
  
 \title{Propuesta de acuerdo del proyecto}
-\author{Ingeniería web\\\\\textbf{Lider}: Salcedo Navarro, Andoni (785649)\\Pelayo Benedet, Tomás (779691)\\Subías Rodríguez, Rubén (759406)\\Velasco Calvo, Isaac (758986)\\Grupo 13}
+\author{Ingeniería web\\\\Grupo 13}
 \date{Octubre 2021}
 \setlength{\parindent}{2em}
 \setlength{\parskip}{1em}
@@ -27,32 +27,57 @@
  
 \maketitle
  
+\begin{figure}[H]
+    \captionsetup[subfigure]{justification=centering}
+     \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+         \includegraphics[width=0.5\textwidth]{../images/Andoni.jpeg}
+         \caption*{\textbf{Lider}: Salcedo Navarro, Andoni (785649)}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.5\textwidth]{../images/Tomas.jpeg}
+        \caption*{Pelayo Benedet, Tomás (779691)}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.5\textwidth]{../images/Andoni.jpeg}
+        \caption*{Subías Rodríguez, Rubén (759406)}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.5\textwidth]{../images/Andoni.jpeg}
+        \caption*{Velasco Calvo, Isaac (758986)}
+     \end{subfigure}
+
+    \end{figure}
+
 \pagebreak
  
-%// TODO: pequeña introduccion para cada apartado
 \section*{Objetivos}
 
-% // TODO: hacer objetivos
+Se han analizado las caracteristicas del equipo de trabajo y los requerimientos que son necesarios para afrontar el proyecto y se ha llegado a la conclusión de que los objetivos del equipo de cara al proyecto son los siguientes:
 
 \begin{itemize}
-    \item O1.
-    \item O2.
-    \item 
+    \item O1. Ser capaz de identificar las necesidades para desarrollar una aplicación Web que se pueda despliegar en producción.
+    \item O2. Ser capaz de adaptar las nuevas funcionalidades propuestas y desplegarlas en el sistemas web ya funcional.
+    \item O3. Comprender como funcionan las pasarelas publicitarias para poder monetizar la aplicación.
+    \item O4. Comprensión de las arquitectura detras de los  canales de comunicación multicast.
+    \item O5. Entender de como gestinar el almacenamiento y encriptado de datos sensibles.
+    \item O6. Aprender a utilizar los conceptos de UX/UI para que la usabilidad de la aplicación sea la adecuada para el usuario final.
 \end{itemize}
 
 \section*{Funcionalidades}
 
-
-% // TODO: relacionar los objetivos con las funcionalidades y poner en los parentesis que objetivos se conectan con cada funcionalidad
-
 \begin{itemize}
-    \item F1. La aplicación implementará un chat grupal en el que se podrán compartir enlaces con otras personas que usen la aplicación (). Con el objetivo de aprender como implementar canales de comunicación bidireccionales.
-    \item F2. La aplicación soportará un inicio de sesión(). Con el objetivo de que cada usuario pueda acceder a sus uri's creadas para poder modificarlas, compartirlas, añadir, eliminar, monetizar, con la finalidad de entender como se realiza el control de sesión y gestión de contraseñas en un nuevo framework.
-    \item F3. Se incluye un sistema de redirección para que el usuario pueda monetizar el número de clicks sobre sus uri's (). Con el objetivo de entender como se crea un modelo de negocio real a partir de una aplicación.
-    \item F4. La aplicación verificará que la uri que el usuario quiere crear es alcanzable (). El objetivo es aprender como se puede comprobar si una redirección es valida, para evitar redirecciones dañinas o inexistentes.
+    \item F1. La aplicación implementará un chat grupal en el que se podrán compartir enlaces con otras personas que usen la aplicación (O1,O2,O4). Con el objetivo de aprender como implementar canales de comunicación bidireccionales.
+    \item F2. La aplicación soportará un inicio de sesión (O1,O2,O5,O6). Con el objetivo de que cada usuario pueda acceder a sus uri's creadas para poder modificarlas, compartirlas, añadir, eliminar, monetizar, con la finalidad de entender como se realiza el control de sesión y gestión de contraseñas en un nuevo framework.
+    \item F3. Se incluye un sistema de redirección para que el usuario pueda monetizar el número de clicks sobre sus uri's (O1,O3). Con el objetivo de entender como se crea un modelo de negocio real a partir de una aplicación.
+    \item F4. La aplicación verificará que la uri que el usuario quiere crear es alcanzable (O2,O5). El objetivo es aprender como se puede comprobar si una redirección es valida, para evitar redirecciones dañinas o inexistentes.
 \end{itemize}
-
-% //TODO: debatir los pesos que debe tener cada funcionalidad y poner los objetivos de cada una
 
 \begin{table}[hbtp]
     \footnotesize
@@ -67,28 +92,30 @@
     \hline
     \hline
         F1 & 
-        X & 
+        15 & 
         La aplicación implementará un chat grupal en el que se podrán compartir enlaces con otras personas que usen la aplicación. &
-        Ox, Oy\\
+        O1, O2, O4\\
     \hline  
         F2 &
-        X &
+        10 &
         La aplicación soportará un inicio de sesión. &
-        Ox, Oy\\
+        O1, O2, O5, O6\\
     \hline
         F3 &
-        X &
+        25 &
         Se incluye un sistema de redirección para que el usuario pueda monetizar el número de clicks sobre sus uri's. &
-        Ox, Oy\\
+        O1, O3\\
     \hline
         F4 &
-        X &
-        La aplicación verificará que la uri que el usuario quiere crear es alcanzable. &
-        Ox, Oy
+        10 &
+        La aplicación verificará que la uri que el usuario que quiere crear es alcanzable. &
+        O2, O5
 
     \end{tabulary}
     \caption{Tabla de reparto de pesos.}
 \end{table}
+
+\pagebreak
 
 \section*{Evalución de las funcionalidades}
 % //TODO: definir un metodo de evaluación de las funcionalidades
