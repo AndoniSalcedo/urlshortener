@@ -190,15 +190,69 @@ Se han analizado las caracteristicas del equipo de trabajo y los requerimientos 
     \settowidth\tymin{\textbf{Funcionalidad}}
     \setlength\extrarowheight{5pt}
     \begin{tabulary}{\textwidth}{ C L }
-        \textbf{F3} & Se incluye un sistema de redirección para que el usuario pueda monetizar el número de clicks sobre sus uri's.
+        \textbf{F3} & Se incluye un sistema de redirección para que el usuario pueda monetizar el numero de clicks sobre sus URIs
         \\
     \hline
     
-    Funcionalidad & adfadfasdfasdf\\
-        
-    Escalabilidad & fafadfa \\
+    Funcionalidad &
+    \begin{itemize}
+        \item El usuario debe poder crear nuevas URIs, las cuales se guardaran en el servidor Web, basadas en URIs externas y alcanzables
 
-    Profesionalidad & dfasdfadsasdf \\
+        \item El usuario crea estas URIs a traves de una petición HTTP con el servidor Web.
+
+        \item Estas nuevas URIs generadas deben de guardarse en el servidor Web, y también se tiene que guardar que usuario la ha generado.
+
+        \item Opcionalmente, el usuario puede decidir que debe recibir "puntos" en su cuenta por cada vez que una de las URIs generadas por este es usada.
+
+        \item Otro usuario, al acceder a una de las URIs generadas, será redirigido a una página de espera, donde tendrá que esperar 5 segundos para continuar a la URI sin "shortening".
+    \end{itemize} &
+        
+    Escalabilidad\\ &
+    5:
+    \begin{itemize}
+        \item Un usuario con una petición HTTP GET, puede acceder a una de las URIs generadas/acortadas. Los puntos obtenidos por acceder a las URIs son virtuales y no se pueden canjear por dinero de verdad.
+        
+    \end{itemize} 
+    10:
+    \begin{itemize}
+        \item Cumple el nivel 5
+		
+		\item Una nueva petición de "shortening" de URI, tipo HTTP POST, se ejecuta en un nuevo hilo paralelo, donde este realiza la comprobación de validez de la URI dada por el usuario, la generación de una nueva URI y su guardado en el servidor Web.
+		
+        \item Entrar en la URI acortada crea un nuevo hilo en el servidor Web, el cual, asincronicamente al usuario, le da un punto a quien creo la URI acortada.
+    \end{itemize} 
+    15:
+    \begin{itemize}
+        \item Cumple el nivel 10
+        
+        \item La petición de "shortening" es gestionada primero por un hilo, el cual añade a una cola, global en el servidor Web, la petición en cuestión.
+        
+        \item Otro hilo distrbuye las peticiones de la cola entre una serie de hilos workers, los cuales realizan las funciones de comprobación de validez, generación de URIs y guardado en el servidor Web.
+        
+        \item La página de espera al acceder a una URI acortada contiene anuncios de verdad, los cuales generan dinero.
+	\end{itemize} 
+    20:
+    \begin{itemize}
+        \item Cumple el nivel 15
+        
+        \item La comprobación y el guardado de la URI generada en el servidor Web se realizan de forma asincronica tras generar la URI y remitirsela al usuario. 
+        
+        \item Esta URI no es funcional hasta que los dos procesos anteriores terminen.
+	\end{itemize}
+    25:
+    \begin{itemize}
+        \item Cumple el nivel 20
+        
+        \item El acceso a una URI acortada y el aumento de puntos que tiene un usuario se realiza también con una arquitectura Master-Worker.
+
+        \item Aquellos puntos obtenidos por un usuario con sus URIs personales pueden ser canjeados por dinero real con una petición HTTP.
+	\end{itemize} &
+
+    Profesionalidad & 
+    \begin{itemize}
+        \item La API de las peticiones HTML de creación de nuevas URIs debe estar documentado.
+	    \item Debe haber una serie de pruebas automaticas sobre la API de creación de nuevas URIs.
+    \end{itemize}
 
     \end{tabulary}
 \end{table}
