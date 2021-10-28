@@ -74,9 +74,9 @@ Se han analizado las características del equipo de trabajo y los requerimientos
 \section*{Funcionalidades}
  
 \begin{itemize}
-    \item F1. La aplicación implementará un chat grupal en el que se podrán compartir enlaces con otras personas que usen la aplicación (O1,O2,O4). Con el objetivo de aprender cómo implementar canales de comunicación bidireccionales.
-    \item F2. La aplicación soportará un inicio de sesión (O1,O2,O5,O6). Con el objetivo de que cada usuario pueda acceder a sus uri 's creadas para poder modificarlas, compartirlas, añadir, eliminar, monetizar, con la finalidad de entender cómo se realiza el control de sesión y gestión de contraseñas en un nuevo framework.
-    \item F3. Se incluye un sistema de redirección para que el usuario pueda monetizar el número de clicks sobre sus usuarios (O1,O3). Con el objetivo de entender cómo se crea un modelo de negocio real a partir de una aplicación.
+    \item F1. La aplicación dara la capacidad de compartir enlaces con otras personas a través de redes sociales (O1,O2,O4). Con el objetivo de aprender cómo implementar canales de comunicación bidireccionales.
+    \item F2. La aplicación soportará un inicio de sesión y permitirá al usuario gestionar sus URL's asociadas así como el número de usos. (O1,O2,O5,O6). Con el objetivo de que cada usuario pueda acceder a sus uri 's creadas para poder modificarlas, compartirlas, añadir, eliminar, monetizar, con la finalidad de entender cómo se realiza el control de sesión y gestión de contraseñas en un nuevo framework.
+    \item F3. Se incluye un sistema de redirección para que el usuario pueda monetizar. (O1,O3). Con el objetivo de entender cómo se crea un modelo de negocio real a partir de una aplicación.
     \item F4. La aplicación verificará que la uri que el usuario quiere crear es alcanzable (O2,O5). El objetivo es aprender cómo se puede comprobar si una redirección es válida, para evitar redirecciones dañinas o inexistentes.
 \end{itemize}
  
@@ -94,21 +94,21 @@ Se han analizado las características del equipo de trabajo y los requerimientos
     \hline
         F1 & 
         15 & 
-        La aplicación implementará un chat grupal en el que se podrán compartir enlaces con otras personas que usen la aplicación. &
+        La aplicación dara la capacidad de compartir enlaces con otras personas a través de redes sociales. &
         O1, O2, O4\\
     \hline  
         F2 &
-        10 &
-        La aplicación soportará un inicio de sesión. &
+        15 &
+        La aplicación soportará un inicio de sesión y permitirá al usuario gestionar sus URL's asociadas así como el número de usos. &
         O1, O2, O5, O6\\
     \hline
         F3 &
-        25 &
-        Se incluye un sistema de redirección para que el usuario pueda monetizar el número de clicks sobre sus uri's. &
+        15 &
+        Se incluye un sistema de redirección para que el usuario pueda monetizar. &
         O1, O3\\
     \hline
         F4 &
-        10 &
+        15 &
         La aplicación verificará que la uri que el usuario quiere crear es alcanzable. &
         O2, O5
  
@@ -127,26 +127,24 @@ Se han analizado las características del equipo de trabajo y los requerimientos
     \settowidth\tymin{\textbf{Funcionalidad}}
     \setlength\extrarowheight{5pt}
     \begin{tabulary}{\textwidth}{ C L }
-        \textbf{F1} & La aplicación implementará un chat grupal en el que se podrán compartir enlaces con otras personas que usen la aplicación.
+        \textbf{F1} & La aplicación dara la capacidad de compartir enlaces con otras personas a través de redes sociales.
         \\
     \hline
     
     Cumplimiento &
-     \labelitemi \quad Los usuarios pueden entrar a un chat y en él pueden interactuar entre ellos && 
-     \labelitemi \quad Todos los usuarios participantes en el chat reciben todos los mensajes && 
-     \labelitemi \quad Se pueden compartir links de los enlaces recortados de cada usuario en el chat\\
+     \labelitemi \quad El usuario recibirá por correo el enlace recortado que ha sido creado. &&
+
+     \labelitemi \quad Al usuario se le ofrecerá un QR para poder compartir de una manera más sencilla la URL . \\
         
     Escalabilidad & 
     5: && 
         \quad \labelitemi \quad No necesita escalar &&
     10: &&
-        \quad \labelitemi \quad Cumplor nivel 5 && 
-        \quad \labelitemi \quad El chat dispondrá al usuario emoticonos para poder enviarlos &&
-        \quad \labelitemi \quad El chat marcará la hora a la que se recibieron los mensajes &&
+        \quad \labelitemi \quad Cumplir nivel 5 && 
+        \quad \labelitemi \quad La URL del usuario se compartirá con el resto de usuarios de la aplicación a través de correo electrónico. && 
     15: &&
-        \quad \labelitemi \quad Cumplor nivel 10 &&
-        \quad \labelitemi \quad El chat hará entender al usuario que su mensaje ha sido mandado con exito &&
-        \quad \labelitemi \quad El chat permitirá deslizar la lista de mensajes para poder ver los que se mandaron con anterioridad\\
+        \quad \labelitemi \quad Cumplir nivel 10 &&
+        \quad \labelitemi \quad La url de usuario se autopublicará en Twitter.\\
  
     Profesionalidad &
     
@@ -161,25 +159,33 @@ Se han analizado las características del equipo de trabajo y los requerimientos
     \settowidth\tymin{\textbf{Funcionalidad}}
     \setlength\extrarowheight{5pt}
     \begin{tabulary}{\textwidth}{ C L }
-        \textbf{F2} & La aplicación soportará un inicio de sesión.
+        \textbf{F2} & La aplicación soportará un inicio de sesión y permitirá al usuario gestionar sus URL's asociadas así como el número de usos.
         \\
     \hline
     
     Cumplimiento &
         \labelitemi \quad La información que se necesita se obtiene previamente, por ejemplo, en el momento en que el usuario se identifica. &&
         \labelitemi \quad A la hora realizar una operación, se lanzará un proceso asíncrono que se encargue de actualizar la lista a mostrar. &&
-        \labelitemi \quad La lista de URIs se debe devolver en un tiempo máximo configurable. \\
+        \labelitemi \quad La lista de URIs se debe devolver en un tiempo máximo configurable. &&
+        \labelitemi \quad Estas nuevas URIs generadas deben de guardarse en el servidor Web, y también se tiene que guardar que usuario la ha generado. &&
+ 
+        \labelitemi \quad Opcionalmente, el usuario puede decidir que debe recibir "puntos" en su cuenta por cada vez que una de las URIs generadas por este es usada. \\
         
     Escalabilidad &
     5: &&
         \quad \labelitemi \quad No necesita escalar. &&
          
     10: &&
-        \quad \labelitemi \quad La información que se necesita se obtiene previamente, por ejemplo, en el momento en que el usuario se identifica. &&
+        \quad \labelitemi \quad Cumplir nivel 5. && 
+
+        \quad \labelitemi \quad La información que se necesita se obtiene previamente, sesión de usuario persistente. &&
 		
         \quad \labelitemi \quad A la hora realizar una operación, se lanzará un proceso asíncrono que se encargue de actualizar la lista a mostrar. &&
  
-        \quad \labelitemi \quad La lista de URIs se debe devolver en un tiempo máximo configurable. \\
+        \quad \labelitemi \quad La aplicación permitirá al usuario eliminar sus URL creadas. &&
+    15: &&
+        \quad \labelitemi \quad Cumplir nivel 10. && 
+        \quad \labelitemi \quad La aplicación almacenará el número de clicks realizados sobre cada URL del usuario. \\
  
     Profesionalidad & 
     \labelitemi \quad El API expuesto al usuario tendrá pruebas automáticas que verificarán el cumplimiento. &&
@@ -195,36 +201,30 @@ Se han analizado las características del equipo de trabajo y los requerimientos
     \settowidth\tymin{\textbf{Funcionalidad}}
     \setlength\extrarowheight{5pt}
     \begin{tabulary}{\textwidth}{ C L }
-        \textbf{F3} & Se incluye un sistema de redirección para que el usuario pueda monetizar el número de clicks sobre sus URIs
+        \textbf{F3} & incluye un sistema de redirección para que el usuario pueda monetizar.
         \\
     \hline
     
     Cumplimiento &
     \begin{itemize}
-        \item El usuario debe poder crear nuevas URIs, las cuales se guardaran en el servidor Web, basadas en URIs externas y alcanzables
- 
-        \item El usuario crea estas URIs a través de una petición HTTP con el servidor Web.
- 
-        \item Estas nuevas URIs generadas deben de guardarse en el servidor Web, y también se tiene que guardar que usuario la ha generado.
- 
-        \item Opcionalmente, el usuario puede decidir que debe recibir "puntos" en su cuenta por cada vez que una de las URIs generadas por este es usada.
- 
-        \item Otro usuario, al acceder a una de las URIs generadas, será redirigido a una página de espera, donde tendrá que esperar 5 segundos para continuar a la URI sin "shortening".
+        
+        \item Al acceder a una de las URIs generadas, será redirigido a una página de espera, donde tendrá que esperar 5 segundos para continuar a la URI sin "shortening", solo con las URL asociadas a usuarios de la plataforma.
+        
     \end{itemize} &
         
     Escalabilidad\\ &
     5:
     \begin{itemize}
-        \item Un usuario con una petición HTTP GET, puede acceder a una de las URIs generadas/acortadas. Los puntos obtenidos por acceder a las URIs son virtuales y no se pueden canjear por dinero de verdad.
+        \item No necesita escalar.
         
     \end{itemize} 
     10:
     \begin{itemize}
         \item Cumple el nivel 5
 		
-		\item Una nueva petición de "shortening" de URI, tipo HTTP POST, se ejecuta en un nuevo hilo paralelo, donde este realiza la comprobación de validez de la URI dada por el usuario, la generación de una nueva URI y su guardado en el servidor Web.
-		
-        \item Entrar en la URI acortada crea un nuevo hilo en el servidor Web, el cual, asincrónicamente al usuario, le da un punto a quien creó la URI acortada.
+        \item La petición de la URL es asincrónica y está no se devolverá hasta que halla pasado el tiempo esperado.
+        \item Se evitará la obtención de la URL antes del tiempo de espera, utilizando un canal de comunicación bidireccional.
+        
     \end{itemize} 
     15:
     \begin{itemize}
@@ -235,22 +235,6 @@ Se han analizado las características del equipo de trabajo y los requerimientos
         \item Otro hilo distribuye las peticiones de la cola entre una serie de hilos workers, los cuales realizan las funciones de comprobación de validez, generación de URIs y guardado en el servidor Web.
         
         \item La página de espera al acceder a una URI acortada contiene anuncios de verdad, los cuales generan dinero.
-	\end{itemize} 
-    20:
-    \begin{itemize}
-        \item Cumple el nivel 15
-        
-        \item La comprobación y el guardado de la URI generada en el servidor Web se realizan de forma asincrónica tras generar la URI y remitirsela al usuario. 
-        
-        \item Esta URI no es funcional hasta que los dos procesos anteriores terminen.
-	\end{itemize}
-    25:
-    \begin{itemize}
-        \item Cumple el nivel 20
-        
-        \item El acceso a una URI acortada y el aumento de puntos que tiene un usuario se realiza también con una arquitectura Master-Worker.
- 
-        \item Aquellos puntos obtenidos por un usuario con sus URIs personales pueden ser canjeados por dinero real con una petición HTTP.
 	\end{itemize} &
  
     Profesionalidad & 
@@ -325,30 +309,6 @@ Se han analizado las características del equipo de trabajo y los requerimientos
         tareas
  
  
-	\end{itemize} 
-    20:
-    \begin{itemize}
-        \item El trabajo anterior se realizará por dos máquinas clientes en
-        lugar de una
-        
-        \item Las peticiones de verificación utilizarán librerías de tolerancia a
-        fallos y tendrán limitadas el número de peticiones por segundo
-        
-        \item Se asegurará de alguna manera que si una máquina cliente se
-        cae todas las verificaciones que estaban en proceso se volverán
-        a realizar
-	\end{itemize}
-    25:
-    \begin{itemize}
-        \item Cumple el nivel 20
-        
-        \item Las máquinas del punto anterior expondrán información sobre
-        su nivel de carga de trabajo
- 
-        \item Una aplicación monitorizará esta información y creará o apagará
-        máquinas de una de forma automática para asegurar que
-        siempre hay una máquina disponible y que solo cuando sea
-        necesario hay dos
 	\end{itemize} &
  
     Profesionalidad & 
