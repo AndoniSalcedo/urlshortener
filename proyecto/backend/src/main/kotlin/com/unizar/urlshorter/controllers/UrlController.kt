@@ -41,6 +41,7 @@ class UrlController(
 
         //TODO: TASK 1 CHECK SOME STUFF
         //TODO: Ruben part
+        //TODO: currently is not a must to be async only check if the url is correct and call validate Url 
         /* Execute async the validation of the url and update field url.isValid to true if the url is correct
                 async function{
                     get(url)...
@@ -79,6 +80,7 @@ class UrlController(
 
         //TODO: TASK 1 CHECK SOME STUFF
         //TODO: Ruben part
+        //TODO: currently is not a must to be async only check if the url is correct and call validate Url 
         /* Execute async the validation of the url and update field url.isValid to true if the url is correct
                 async function{
                     get(url)...
@@ -101,6 +103,7 @@ class UrlController(
     
     // TODO: function must be async, when socket recive msg {tiny,id} wait 10s and return the url using sockets
     // TODO: Isaac part
+    // TODO: make the changes in other file (e.g: SocketController.kt) and let this code as decapreted for the moment
     @GetMapping("/tiny-{id:.*}")
     fun redirect(@PathVariable id: String) : ResponseEntity<ShortOut> {
         
