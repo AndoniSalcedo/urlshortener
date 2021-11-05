@@ -1,9 +1,10 @@
 package com.unizar.urlshorter.models
 
+import com.unizar.urlshorter.models.Url
+
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import java.util.ArrayList
-import org.bson.types.ObjectId
 
 @Document(collection = "users")
 class User {
@@ -12,7 +13,7 @@ class User {
     var name = ""
     var email = ""
     var password  = ""
-    var urls = ArrayList<ObjectId>()
+    var urls = ArrayList<Url>()
 
     constructor(name: String, email: String, password: String){
         this.name = name
@@ -20,7 +21,7 @@ class User {
         this.password = password
     }
 
-    fun addUrl(url: ObjectId){
+    fun addUrl(url: Url){
         urls.add(url)
     }
 

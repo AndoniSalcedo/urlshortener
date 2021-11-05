@@ -19,13 +19,16 @@ import java.util.*
 import org.bson.types.ObjectId
 
 data class ShortIn(
-    val url: String 
+    var url: String 
 )
 
 data class ShortOut(
-    val url: String 
+    var url: String 
 )
 
+data class UrlsOut(
+    var urls: ArrayList<Url>?
+)
 
 @RestController
 @RequestMapping("/api")
@@ -91,7 +94,7 @@ class UrlController(
                 }      
            */
         //Add Url to User urls
-        user.addUrl(ObjectId(url.id))
+        user.addUrl(url)
         
         //Save url
         urlRepository.save(url)        
@@ -104,11 +107,11 @@ class UrlController(
     // TODO: function must be async, when socket recive msg {tiny,id} wait 10s and return the url using sockets
     // TODO: Isaac part
     // TODO: make the changes in other file (e.g: SocketController.kt) and let this code as decapreted for the moment
-    @GetMapping("/tiny-{id:.*}")
-    fun redirect(@PathVariable id: String) : ResponseEntity<ShortOut> {
+    @GetMapping("/tiny-{shorter:.*}")
+    fun redirect(@PathVariable shorter: String) : ResponseEntity<ShortOut> {
         
         //Find if the url exist
-        var url = urlRepository.findOneByShorter(id)
+        var url = urlRepository.findOneByShorter(shorter)
         if(url == null){
             var res = ShortOut(
                 url = "url null"
@@ -130,6 +133,34 @@ class UrlController(
             url = url.url
         )
         
-        return ResponseEntity<ShortOut>(res,HttpHeaders(), HttpStatus.CREATED)
+        return ResponseEntity<ShortOut>(res, HttpHeaders(), HttpStatus.CREATED)
+    }
+    
+    @GetMapping("/user/urls")
+    fun getUrls(@RequestHeader("accessToken") accessToken: String?) : ResponseEntity<UrlsOut> {
+        if( accessToken == null){
+            var res = UrlsOut(
+                urls = null
+            )
+            return ResponseEntity<UrlsOut>(res, HttpHeaders(), HttpStatus.UNAUTHORIZED)
+        }
+        //Extract Id from JWT payload
+        var id = Jwts.parser().setSigningKey("secret").parseClaimsJws(accessToken).body
+        //Get user
+        var user = userRepository.findOneById(ObjectId(id.issuer))
+
+        if(user == null){
+            var res = UrlsOut(
+                urls = null
+            )
+            return ResponseEntity<UrlsOut>(res ,HttpHeaders(), HttpStatus.UNAUTHORIZED)
+        }
+
+        var res = UrlsOut(
+            urls = user.urls
+        )
+
+        return ResponseEntity<UrlsOut>(res,HttpHeaders(), HttpStatus.CREATED)
+
     }
 }
