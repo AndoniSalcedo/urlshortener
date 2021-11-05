@@ -17,6 +17,9 @@ class Url {
     constructor(url: String){
         this.url = url
         this.shorter = Hashing.murmur3_32().hashString(url, StandardCharsets.UTF_8).toString()
+        // TODO: Ruben part
+        // Search out to convert url to captca image 
+        // Add fields to urls collection in order to save captcha image
     }
 
     fun validateUrl(){
