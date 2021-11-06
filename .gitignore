@@ -279,7 +279,7 @@ TSWLatexianTemp*
 *.class
 
 # dependencies
-proyecto/frontend/node_modules/
+./proyecto/frontend/node_modules/
 */.pnp
 *.pnp.js
 
