@@ -16,6 +16,11 @@ import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import java.util.*
 
+import java.net.URI;
+import java.net.http.HttpClient
+import java.net.http.HttpRequest
+import java.net.http.HttpResponse
+
 import org.bson.types.ObjectId
 
 data class ShortIn(
@@ -45,22 +50,28 @@ class UrlController(
         //TODO: TASK 1 CHECK SOME STUFF
         //TODO: Ruben part
         //TODO: currently is not a must to be async only check if the url is correct and call validate Url 
-        /* Execute async the validation of the url and update field url.isValid to true if the url is correct
-                async function{
-                    get(url)...
-                    if(ok){
-                        url.validateUrl()
-                        urlRepository.save(url)
-                    }  
-                }      
-           */
+        /* Execute validation(currently sync) of the url and update field url.isValid to true if the url is correct*/
+        fun checkUrl(): Int {
+            val client = HttpClient.newBuilder().build();
+            val request = HttpRequest.newBuilder()
+                    .uri(URI.create(url.url))
+                    .build();
+            val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+            return response.statusCode()
+        }
 
+        var retCode = checkUrl()
 
-        urlRepository.save(url)    
+        if (retCode == 200){
+            url.validateUrl()
+            urlRepository.save(url)
+        }else{
+            url.shorter = "NULO"
+        }
 
         var res = ShortOut(
-            url = url.shorter
-        )    
+                url = url.shorter
+        )
 
         return ResponseEntity<ShortOut>(res,HttpHeaders(), HttpStatus.CREATED)
     }
@@ -84,15 +95,23 @@ class UrlController(
         //TODO: TASK 1 CHECK SOME STUFF
         //TODO: Ruben part
         //TODO: currently is not a must to be async only check if the url is correct and call validate Url 
-        /* Execute async the validation of the url and update field url.isValid to true if the url is correct
-                async function{
-                    get(url)...
-                    if(ok){
-                        url.validateUrl()
-                        urlRepository.save(url)
-                    }  
-                }      
-           */
+        /* Execute validation(currently sync) of the url and update field url.isValid to true if the url is correct*/
+        fun checkUrl(): Int {
+            val client = HttpClient.newBuilder().build();
+            val request = HttpRequest.newBuilder()
+                    .uri(URI.create(url.url))
+                    .build();
+            val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+            return response.statusCode()
+        }
+
+        var retCode = checkUrl()
+
+        if (retCode == 200){
+            url.validateUrl()
+            urlRepository.save(url)
+        }
+
         //Add Url to User urls
         user.addUrl(url)
         
