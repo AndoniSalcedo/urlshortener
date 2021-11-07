@@ -57,18 +57,16 @@ class UrlController(
                     .uri(URI.create(url.url))
                     .build();
             val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+            if (response.statusCode() == 200){
+                url.validateUrl()
+            }
             return response.statusCode()
         }
 
-        var retCode = checkUrl()
 
-        if (retCode == 200){
-            url.validateUrl()
-            urlRepository.save(url)
-        }else{
-            url.shorter = "NULO"
-        }
+        checkUrl()
 
+        urlRepository.save(url)
         var res = ShortOut(
                 url = url.shorter
         )
@@ -102,15 +100,15 @@ class UrlController(
                     .uri(URI.create(url.url))
                     .build();
             val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+            if (response.statusCode() == 200){
+                url.validateUrl()
+            }
             return response.statusCode()
         }
 
-        var retCode = checkUrl()
+        checkUrl()
 
-        if (retCode == 200){
-            url.validateUrl()
-            urlRepository.save(url)
-        }
+        urlRepository.save(url)
 
         //Add Url to User urls
         user.addUrl(url)
