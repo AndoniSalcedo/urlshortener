@@ -55,7 +55,6 @@ const SignIn = () => {
             	        </section>
                     </section>
                     <section className="line"></section>
-                    <a className="login-component" href="/recovery">Forgot Password?</a>
             	    <button type="button" className="btn" style={{backgroundImage: "linear-gradient(to right, #32be8f, #38d39f, #32be8f)", color: 'white'}} onClick={saveUser}>Log In</button>
                     <button type="button" className="btn" style={{backgroundImage: "linear-gradient(to right, #EA4C46, #F07470, #F1959B)", color: 'white'}} onClick={()=>{history.push('/signup')}}>SignUp</button>
                 </form>

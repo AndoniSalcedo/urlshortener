@@ -41,6 +41,7 @@ const UrlPage = () => {
                         <p>Url recortada: {urlShorted}</p>
                         <button type="button" className="btn" style={{backgroundImage: "linear-gradient(to right, #EA4C46, #F07470, #F1959B)", color: 'white'}} onClick={shortUrl}>Recortar</button>
                         <button type="button" className="btn" style={{backgroundImage: "linear-gradient(to right, #EA4C46, #F07470, #F1959B)", color: 'white'}} onClick={()=>{history.push('/signin')}}>SignIn</button>
+                        <button type="button" className="btn" style={{backgroundImage: "linear-gradient(to right, #EA4C46, #F07470, #F1959B)", color: 'white'}} onClick={()=>{history.push('/signup')}}>Registrarse</button>
                     </section>
                 </form>
             </section>
