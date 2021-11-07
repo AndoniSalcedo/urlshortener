@@ -75,17 +75,19 @@ class UrlController(
     }
 
     @PostMapping("/user/shorter")
-    fun shorter(@RequestBody body: ShortIn, @RequestHeader("accessToken") accessToken: String?): ResponseEntity<Void>  {
+    fun shorter(@RequestBody body: ShortIn, @RequestHeader("accessToken") accessToken: String?): ResponseEntity<ShortOut>  {
 
         if( accessToken == null){
-            return ResponseEntity<Void>(HttpHeaders(), HttpStatus.UNAUTHORIZED)
+            // TODO: Review this null, I put it to put something - TOMENOS
+            return ResponseEntity<ShortOut>(null,HttpHeaders(), HttpStatus.UNAUTHORIZED)
         }
         //Extract Id from JWT payload
         var id = Jwts.parser().setSigningKey("secret").parseClaimsJws(accessToken).body
         //Get user
         var user = userRepository.findOneById(ObjectId(id.issuer))
         if(user == null){
-            return ResponseEntity<Void>(HttpHeaders(), HttpStatus.UNAUTHORIZED)
+            // TODO: Review this null, I put it to put something - TOMENOS
+            return ResponseEntity<ShortOut>(null,HttpHeaders(), HttpStatus.UNAUTHORIZED)
         }
         //Create a URL
         var url = Url(body.url)
@@ -118,7 +120,12 @@ class UrlController(
         //Save user
         userRepository.save(user)
 
-        return ResponseEntity<Void>(HttpHeaders(), HttpStatus.CREATED)
+        // TODO: Review this, I think that it should be saved - TOMENOS
+        var res = ShortOut(
+                url = url.shorter
+        )
+
+        return ResponseEntity<ShortOut>(res,HttpHeaders(), HttpStatus.CREATED)
     }
     
     // TODO: function must be async, when socket recive msg {tiny,id} wait 10s and return the url using sockets

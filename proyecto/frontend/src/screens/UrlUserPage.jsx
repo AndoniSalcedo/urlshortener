@@ -15,12 +15,9 @@ const UrlUserPage = () => {
     const shortUrl = async () => {
         try{
             console.log(token)
-            const res = await axios.post("http://localhost:8080/api/user/shorter",{
-                headers: {
-                    "accessToken" : token
-                },
-                url: urlToShort
-            })
+            const res = await axios.post("http://localhost:8080/api/user/shorter",
+                {url: urlToShort},
+                {headers: {"accessToken" : token}})
             setUrlShorted("http://localhost:3000/api/"+res.data.url)
             console.log(res.data)
             console.log(res.data.url)
