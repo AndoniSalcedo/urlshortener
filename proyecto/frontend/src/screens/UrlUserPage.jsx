@@ -9,12 +9,14 @@ const UrlUserPage = () => {
     const [urlToShort,seturlToShort] = useState("")
     
     const [urlShorted, setUrlShorted]= useState("Not url shorted yet")
+
+    const token = history.location.state?.token
     
     const shortUrl = async () => {
         try{
             const res = await axios.post("http://localhost:8080/api/user/shorter",{
                 headers: {
-                    "accessToken" : "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiI2MTg4MjhlNmVkYTg2ZDAwZTZhMTM3OTkifQ.zPUBqnsdjfj6EAjeRbzDy9knaeeDptl3uWl4HIDuwJ3kd_7m8j28VSwPu0uwPavGv8S4QDwhZhOgXC2fZPcxPg"// TODO POner un token
+                    "accessToken" : token
                 },
                 url: urlToShort
             })

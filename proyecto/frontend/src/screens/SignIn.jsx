@@ -19,7 +19,7 @@ const SignIn = () => {
             const userToken = res.data.accessToken
             console.log(res.data)
             signIn(userToken)
-            history.push('/urluserpage')
+            history.push('/urluserpage', {token: userToken})
         }catch(err){
             console.log(err)
         }
