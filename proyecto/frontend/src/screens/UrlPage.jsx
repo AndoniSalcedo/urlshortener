@@ -15,7 +15,7 @@ const UrlPage = () => {
             const res = await axios.post("http://localhost:8080/api/shorter",{
                 url: urlToShort,
             })
-            setUrlShorted(res.data.url)
+            setUrlShorted("http://localhost:3000/api/"+res.data.url)
             console.log(res.data)
             console.log(res.data.url)
             console.log(urlShorted)

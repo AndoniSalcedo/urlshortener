@@ -17,7 +17,6 @@ const App = () => {
     Token: null
   }
 
-
   const reducer = (prevState, action) => {
     switch(action.type){
       case 'LOGIN':
@@ -53,6 +52,7 @@ const App = () => {
   useEffect(()=>{
     const userToken = localStorage.getItem('token');
     dispatch({type:'LOGIN', Token: userToken});
+    console.log(userToken);
   },[])
 
 
@@ -65,7 +65,7 @@ const App = () => {
             :
             <UrlUserPage/>*/
           }
-            <Route path="/" exact render={ ()=>{history.push('/urlpage')} }/>
+            <Route path="/" exact component={UrlPage}></Route>
             <Route path="/signup" exact component={SignUp}></Route>
             <Route path="/signin" exact component={SignIn}></Route>
             <Route path="/signout" exact render={ () => {

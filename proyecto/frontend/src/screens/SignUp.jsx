@@ -18,7 +18,7 @@ const SignUp = () => {
                 password: Password
             })
             console.log(res.data)
-           history.push('/signin')
+            history.push('/signin')
         }catch(err){
             console.log(err)
         }

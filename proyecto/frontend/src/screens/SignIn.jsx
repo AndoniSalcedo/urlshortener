@@ -16,10 +16,10 @@ const SignIn = () => {
                 email: Email,
                 password: Password
             })
-            const userToken = res.data.token
+            const userToken = res.data.accessToken
             console.log(res.data)
-           signIn(userToken)
-           history.push('/urluserpage')
+            signIn(userToken)
+            history.push('/urluserpage')
         }catch(err){
             console.log(err)
         }
