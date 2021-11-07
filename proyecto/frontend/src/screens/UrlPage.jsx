@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 
 import AuthContext from '../contex'
 import axios from 'axios'
@@ -6,20 +6,19 @@ import axios from 'axios'
 import history from "../history"
 
 const UrlPage = () => {
-    const [Email,setEmail] = useState("")
-    const [Password,setPassword] = useState("")
-    const { signIn } = useContext(AuthContext);
+    const [urlToShort,seturlToShort] = useState("")
     
-    const saveUser = async () => {
+    const [urlShorted, setUrlShorted]= useState("Not url shorted yet")
+    
+    const shortUrl = async () => {
         try{
-            const res = await axios.post("http://localhost:80//auth/login",{
-                email: Email,
-                password: Password
+            const res = await axios.post("http://localhost:8080/api/shorter",{
+                url: urlToShort,
             })
-            const userToken = res.data.token
+            setUrlShorted(res.data.url)
             console.log(res.data)
-           signIn(userToken)
-           history.push('/España')
+            console.log(res.data.url)
+            console.log(urlShorted)
         }catch(err){
             console.log(err)
         }
@@ -32,19 +31,17 @@ const UrlPage = () => {
                         <section/> 
                         <section>
                             <input type="text" 
-                                placeholder="Email"
+                                placeholder="url to short"
                                 className="input" 
                                 required
-                                value={Email}
-                                onChange={(v)=>{setEmail(v.target.value)}}
+                                value={urlToShort}
+                                onChange={(v)=>{seturlToShort(v.target.value)}}
                             />
                         </section>
-                        <button type="button" className="btn" style={{backgroundImage: "linear-gradient(to right, #EA4C46, #F07470, #F1959B)", color: 'white'}} onClick={()=>{
-                            history.push('/signin')  // TODO: Cambiar esto para que haga la petición
-                        }}>Recortar</button>
+                        <p>Url recortada: {urlShorted}</p>
+                        <button type="button" className="btn" style={{backgroundImage: "linear-gradient(to right, #EA4C46, #F07470, #F1959B)", color: 'white'}} onClick={shortUrl}>Recortar</button>
+                        <button type="button" className="btn" style={{backgroundImage: "linear-gradient(to right, #EA4C46, #F07470, #F1959B)", color: 'white'}} onClick={()=>{history.push('/signin')}}>SignIn</button>
                     </section>
-                    <section className="line"></section>
-            	    <button type="button" className="btn" style={{backgroundImage: "linear-gradient(to right, #EA4C46, #F07470, #F1959B)", color: 'white'}} onClick={()=>{history.push('/signin')}}>Log In</button>
                 </form>
             </section>
         );

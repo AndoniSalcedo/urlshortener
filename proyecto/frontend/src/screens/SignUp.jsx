@@ -9,17 +9,16 @@ const SignUp = () => {
     const [Email,setEmail] = useState("")
     const [Password,setPassword] = useState("")
     const [Name,setName] = useState("")
-    const { signIn } = useContext(AuthContext);
     
     const registerUser = async () => {
         try{
-            const res = await axios.post("localhost:80//auth/register",{
+            const res = await axios.post("http://localhost:8080/auth/register",{
                 name: Name,
                 email: Email,
                 password: Password
             })
             console.log(res.data)
-           history.push('/login')
+           history.push('/signin')
         }catch(err){
             console.log(err)
         }
@@ -68,7 +67,6 @@ const SignUp = () => {
             	        </section>
                     </section>
                     <section className="line"></section>
-                    <a className="login-component" href="/recovery">Forgot Password?</a>
             	    <button type="button" className="btn" style={{backgroundImage: "linear-gradient(to right, #32be8f, #38d39f, #32be8f)", color: 'white'}} onClick={registerUser}>Register</button>
                     <button type="button" className="btn" style={{backgroundImage: "linear-gradient(to right, #EA4C46, #F07470, #F1959B)", color: 'white'}} onClick={()=>{history.push('/signin')}}>SignIn</button>
                 </form>

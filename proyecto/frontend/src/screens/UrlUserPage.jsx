@@ -6,20 +6,14 @@ import axios from 'axios'
 import history from "../history"
 
 const UrlUserPage = () => {
-    const [Email,setEmail] = useState("")
-    const [Password,setPassword] = useState("")
-    const { signIn } = useContext(AuthContext);
+    const [urlToShort,seturlToShort] = useState("")
     
-    const saveUser = async () => {
+    const shortUrl = async () => {
         try{
-            const res = await axios.post("http://localhost:80//auth/login",{
-                email: Email,
-                password: Password
+            const res = await axios.post("http://localhost:8080/api/shorter",{
+                url: urlToShort,
             })
-            const userToken = res.data.token
-            console.log(res.data)
-           signIn(userToken)
-           history.push('/España')
+            console.log(res.data.toString())
         }catch(err){
             console.log(err)
         }
@@ -27,37 +21,20 @@ const UrlUserPage = () => {
         return(
             <section className="content">
                 <form onSubmit={()=>{}}>
-                    <h2 className="title">Welcome</h2>
+                    <h2 className="title">Url to short</h2>
                     <section className="input-section email">
                         <section/> 
                         <section>
                             <input type="text" 
-                                placeholder="Email"
+                                placeholder="url to short"
                                 className="input" 
                                 required
-                                value={Email}
-                                onChange={(v)=>{setEmail(v.target.value)}}
+                                value={urlToShort}
+                                onChange={(v)=>{seturlToShort(v.target.value)}}
                             />
                         </section>
-                        
+                        <button type="button" className="btn" style={{backgroundImage: "linear-gradient(to right, #EA4C46, #F07470, #F1959B)", color: 'white'}} onClick={shortUrl}>Recortar</button>
                     </section>
-                    <section className="line"></section>
-                    <section className="input-section pass">
-                        <section/>
-           		        <section>
-                           <input type="password" 
-                                placeholder="Contraseña"
-                                className="input"
-                                required
-                                value={Password}
-                                onChange={(p)=>{setPassword(p.target.value)}}
-                            />
-            	        </section>
-                    </section>
-                    <section className="line"></section>
-                    <a className="login-component" href="/recovery">Forgot Password?</a>
-            	    <button type="button" className="btn" style={{backgroundImage: "linear-gradient(to right, #32be8f, #38d39f, #32be8f)", color: 'white'}} onClick={saveUser}>Log In</button>
-                    <button type="button" className="btn" style={{backgroundImage: "linear-gradient(to right, #EA4C46, #F07470, #F1959B)", color: 'white'}} onClick={()=>{history.push('/signUp')}}>SignUp</button>
                 </form>
             </section>
         );
