@@ -36,11 +36,10 @@ class UserController( val userRepository: UserRepository){
     fun register(@RequestBody body: RegisterIn): ResponseEntity<Void>  {
 
         //TODO: valid data
-
         var userExist = userRepository.findOneByEmail(body.email)
-
+        //Check if User email already exist
         if(userExist != null){
-            return ResponseEntity<Void>(HttpHeaders(), HttpStatus.UNAUTHORIZED)
+            return ResponseEntity<Void>(HttpHeaders(), HttpStatus.CONFLIT)
         }
         //Create a new user
         var user = User(body.name,body.email,body.password)
@@ -54,19 +53,13 @@ class UserController( val userRepository: UserRepository){
     fun login(@RequestBody body: LoginIn) : ResponseEntity<LoginOut> {
         
         var user = userRepository.findOneByEmail(body.email)
-
+        //Check if user exist
         if(user == null){
-            var res = LoginOut(
-                accessToken = "un autoriced"
-            )
-            return ResponseEntity<LoginOut>(res,HttpHeaders(), HttpStatus.UNAUTHORIZED)
+            return ResponseEntity<LoginOut>(null,HttpHeaders(), HttpStatus.NOT_FOUND)
         }
-
+        //Check if password's are the same
         if(!user.comparePassword(body.password)){
-            var res = LoginOut(
-                accessToken = "incorrect"
-            )
-            return ResponseEntity<LoginOut>(res,HttpHeaders(), HttpStatus.UNAUTHORIZED)
+            return ResponseEntity<LoginOut>(null,HttpHeaders(), HttpStatus.UNAUTHORIZED)
         }
 
         var issuer = user.id.toString()
@@ -76,6 +69,6 @@ class UserController( val userRepository: UserRepository){
             accessToken = jwt
         )
         
-        return ResponseEntity<LoginOut>(res,HttpHeaders(), HttpStatus.CREATED)
+        return ResponseEntity<LoginOut>(res,HttpHeaders(), HttpStatus.OK)
     }
 }

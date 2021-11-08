@@ -1,0 +1,11 @@
+- Monetización
+. parte de funcionalidad de redirección.
+. parte de sistema de puntos por redirecciones.
+. pagina asincrona para publicidad.
+. meterlo en la segunda y subirle peso a la segunda.
+
+- F1
+
+compartirlo por socialmedia, olvidar chat
+
+- F3 el timer en ele lado del servidor con sockets
