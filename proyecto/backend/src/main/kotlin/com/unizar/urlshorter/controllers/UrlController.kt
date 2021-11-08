@@ -84,7 +84,7 @@ class UrlController(
         //Create a URL
         var url = Url(body.url)
         //Check if url is correct
-        checkUrl()
+        checkUrl(url)
         //Add Url to User urls
         user.addUrl(url)
         //Save url
