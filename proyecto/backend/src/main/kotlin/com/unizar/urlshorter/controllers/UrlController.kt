@@ -125,6 +125,7 @@ class UrlController(
     }
     
     // Depecrated func
+    @Deprecated(message = "Past Test Functionality")
     @GetMapping("/tiny-{shorter:.*}")
     fun redirect(@PathVariable shorter: String) : ResponseEntity<ShortOut> {
         
