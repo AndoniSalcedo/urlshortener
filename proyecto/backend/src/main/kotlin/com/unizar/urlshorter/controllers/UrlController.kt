@@ -41,7 +41,7 @@ class UrlController(
     var urlRepository: UrlRepository,
     var userRepository: UserRepository){
 
-    fun checkUrl(url: Url): Void {
+    fun checkUrl(url: Url) {
         val client = HttpClient.newBuilder().build();
         val req = HttpRequest.newBuilder()
                 .uri(URI.create(url.url))
@@ -51,6 +51,7 @@ class UrlController(
             url.validateUrl()
             urlRepository.save(url)
         }
+        
     }
     
 
@@ -137,10 +138,12 @@ class UrlController(
             return ResponseEntity<ShortOut>(null,HttpHeaders(), HttpStatus.UNAUTHORIZED)
         }
 
-        fun addClick(): Void {
+        fun addClick() {
             url.addClick()
             urlRepository.save(url)
         }
+
+        addClick()
 
         var res = ShortOut(
             url = url.url

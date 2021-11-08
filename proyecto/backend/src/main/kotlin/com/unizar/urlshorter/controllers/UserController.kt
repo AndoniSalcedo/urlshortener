@@ -39,7 +39,7 @@ class UserController( val userRepository: UserRepository){
         var userExist = userRepository.findOneByEmail(body.email)
         //Check if User email already exist
         if(userExist != null){
-            return ResponseEntity<Void>(HttpHeaders(), HttpStatus.CONFLIT)
+            return ResponseEntity<Void>(HttpHeaders(), HttpStatus.CONFLICT)
         }
         //Create a new user
         var user = User(body.name,body.email,body.password)
