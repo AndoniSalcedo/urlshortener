@@ -8,10 +8,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @Configuration
 @EnableWebMvc
 class WebConfig : WebMvcConfigurer {
-    //TODO: currently only accept request for local host
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/**")
-            .allowedOrigins("http://localhost:8080","http://localhost:3000")
+            .allowedOrigins("*")
             .allowCredentials(true)
     }
 }

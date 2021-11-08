@@ -40,16 +40,21 @@ data class UrlsOut(
 class UrlController(
     var urlRepository: UrlRepository,
     var userRepository: UserRepository){
-
+    
+    
     fun checkUrl(url: Url) {
-        val client = HttpClient.newBuilder().build();
-        val req = HttpRequest.newBuilder()
+        try{
+            val client = HttpClient.newBuilder().build();
+            val req = HttpRequest.newBuilder()
                 .uri(URI.create(url.url))
                 .build();
-        val res = client.send(req, HttpResponse.BodyHandlers.ofString())
-        if (res.statusCode() == 200){
+
+            val res = client.send(req, HttpResponse.BodyHandlers.ofString())
+            //If res.status != 2** throw a exception and dont save the url salid
             url.validateUrl()
             urlRepository.save(url)
+            
+        }catch(ex: Exception){
         }
         
     }
@@ -62,7 +67,6 @@ class UrlController(
         //Check if url us correct
         checkUrl(url)
         //Save url
-        urlRepository.save(url)
         var res = ShortOut(
                 url = url.shorter
         )
@@ -71,16 +75,18 @@ class UrlController(
 
     @PostMapping("/user/shorter")
     fun shorter(@RequestBody body: ShortIn, @RequestHeader("accessToken") accessToken: String?): ResponseEntity<ShortOut>  {
-
+        //Check if header exist
         if( accessToken == null){
-            return ResponseEntity<ShortOut>(null,HttpHeaders(), HttpStatus.BAD_REQUEST)
+            return ResponseEntity<ShortOut>(null, HttpHeaders(), HttpStatus.BAD_REQUEST)
         }
         //Extract Id from JWT payload
+        //TODO: global secret
         var id = Jwts.parser().setSigningKey("secret").parseClaimsJws(accessToken).body
         //Get user
         var user = userRepository.findOneById(ObjectId(id.issuer))
+        //Check if user exist
         if(user == null){
-            return ResponseEntity<ShortOut>(null,HttpHeaders(), HttpStatus.NOT_FOUND)
+            return ResponseEntity<ShortOut>(null ,HttpHeaders(), HttpStatus.NOT_FOUND)
         }
         //Create a URL
         var url = Url(body.url)
