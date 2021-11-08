@@ -21,7 +21,10 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
+import javax.imageio.ImageIO;
+
 import org.bson.types.ObjectId
+
 
 data class ShortIn(
     var url: String 
@@ -29,6 +32,10 @@ data class ShortIn(
 
 data class ShortOut(
     var url: String 
+)
+
+data class QrOut(
+    var qr: String
 )
 
 data class UrlsOut(
@@ -43,38 +50,38 @@ class UrlController(
     
     
     fun checkUrl(url: Url) {
-        try{
+        try {
             val client = HttpClient.newBuilder().build();
             val req = HttpRequest.newBuilder()
                 .uri(URI.create(url.url))
                 .build();
-
-            val res = client.send(req, HttpResponse.BodyHandlers.ofString())
+            client.send(req, HttpResponse.BodyHandlers.ofString())
             //If res.status != 2** throw a exception and dont save the url salid
             url.validateUrl()
-            urlRepository.save(url)
-            
-        }catch(ex: Exception){
+            urlRepository.save(url)   
+        } catch(ex: Exception) {
+
         }
-        
     }
     
 
     @PostMapping("/shorter")
-    fun shorter(@RequestBody body: ShortIn): ResponseEntity<ShortOut>  {
+    fun shorter(@RequestBody body: ShortIn): ResponseEntity<ShortOut> {
         //Create url
         var url = Url(body.url)
         //Check if url us correct
         checkUrl(url)
         //Save url
         var res = ShortOut(
-                url = url.shorter
+            url = url.shorter
         )
-        return ResponseEntity<ShortOut>(res,HttpHeaders(), HttpStatus.CREATED)
+        return ResponseEntity<ShortOut>(res, HttpHeaders(), HttpStatus.CREATED)
     }
 
+    
+
     @PostMapping("/user/shorter")
-    fun shorter(@RequestBody body: ShortIn, @RequestHeader("accessToken") accessToken: String?): ResponseEntity<ShortOut>  {
+    fun userShorter(@RequestBody body: ShortIn, @RequestHeader("accessToken") accessToken: String?): ResponseEntity<ShortOut>  {
         //Check if header exist
         if( accessToken == null){
             return ResponseEntity<ShortOut>(null, HttpHeaders(), HttpStatus.BAD_REQUEST)
@@ -86,7 +93,7 @@ class UrlController(
         var user = userRepository.findOneById(ObjectId(id.issuer))
         //Check if user exist
         if(user == null){
-            return ResponseEntity<ShortOut>(null ,HttpHeaders(), HttpStatus.NOT_FOUND)
+            return ResponseEntity<ShortOut>(null, HttpHeaders(), HttpStatus.NOT_FOUND)
         }
         //Create a URL
         var url = Url(body.url)
@@ -100,10 +107,21 @@ class UrlController(
         userRepository.save(user)
 
         var res = ShortOut(
-                url = url.shorter
+            url = url.shorter
         )
 
-        return ResponseEntity<ShortOut>(res,HttpHeaders(), HttpStatus.CREATED)
+        return ResponseEntity<ShortOut>(res, HttpHeaders(), HttpStatus.CREATED)
+    }
+    //TODO: how to return qr
+    @GetMapping("/qr/{id}")
+    fun qr(@PathVariable id: String): ResponseEntity<QrOut>  {
+        //Find url by Id
+        var url = urlRepository.findOneById(id)
+        //Return qr of the url
+        var res = QrOut(
+            qr = ""
+        )
+        return ResponseEntity<QrOut>(res, HttpHeaders(), HttpStatus.CREATED)
     }
 
     @GetMapping("/user/urls")
@@ -127,7 +145,7 @@ class UrlController(
             urls = user.urls
         )
 
-        return ResponseEntity<UrlsOut>(res,HttpHeaders(), HttpStatus.OK)
+        return ResponseEntity<UrlsOut>(res, HttpHeaders(), HttpStatus.OK)
     }
     
     // Depecrated func
@@ -138,11 +156,11 @@ class UrlController(
         //Find if the url exist
         var url = urlRepository.findOneByShorter(shorter)
         if(url == null){
-            return ResponseEntity<ShortOut>(null,HttpHeaders(), HttpStatus.UNAUTHORIZED)
+            return ResponseEntity<ShortOut>(null, HttpHeaders(), HttpStatus.UNAUTHORIZED)
         }
         // Find if Url is valid
         if(!url.isValid){
-            return ResponseEntity<ShortOut>(null,HttpHeaders(), HttpStatus.UNAUTHORIZED)
+            return ResponseEntity<ShortOut>(null, HttpHeaders(), HttpStatus.UNAUTHORIZED)
         }
 
         fun addClick() {

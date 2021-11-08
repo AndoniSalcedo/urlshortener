@@ -30,6 +30,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	implementation ("com.google.zxing:core:3.4.0")
+    implementation("com.google.zxing:javase:3.3.2")
 }
 
 
