@@ -7,6 +7,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler
 
 import java.util.*
 import java.io.IOException
+import java.lang.Thread
 
 import org.bson.types.ObjectId
 
@@ -17,7 +18,7 @@ import org.bson.types.ObjectId
 @Component
 class WSController : TextWebSocketHandler() {
     
-    @Throws(Exception::class)
+    //@Throws(Exception::class)
     override fun afterConnectionEstablished(session: WebSocketSession) {
         session.sendMessage(TextMessage("Connection Established!"))
     }
@@ -26,11 +27,15 @@ class WSController : TextWebSocketHandler() {
         session.sendMessage(TextMessage("Connection Closed, reason: " + status))
     }
 
-    @Throws(InterruptedException::class, IOException::class)
+    //@Throws(InterruptedException::class, IOException::class)
     public override fun handleTextMessage(session: WebSocketSession, message: TextMessage) {
         //Test response
-        session.sendMessage(TextMessage("Response!"))
-		println("[DEBUG] Test!");
+		println("Incoming Message: '" + message.payload + "', waiting 10 seconds...");
+
+        Thread.sleep(10000)
+
+        println("Sending Response...");
+        session.sendMessage(TextMessage("Message Recived!"))
 
 
         //TextMessage should have the shortened URL

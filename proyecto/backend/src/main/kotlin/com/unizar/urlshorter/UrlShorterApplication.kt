@@ -15,6 +15,9 @@ import com.unizar.urlshorter.controllers.WSController
 class WSConfig : WebSocketConfigurer {
     @Autowired
     lateinit var socketHandler: WSController
+    
+    //Agradecimientos a https://jeffgardner.tech/spring-boot-web-sockets/ por ser el
+    //único sitio donde dicen como usar WebSockets en Springboot y que funcione de verdad
 
     override fun registerWebSocketHandlers(registry: WebSocketHandlerRegistry) {
         registry.addHandler(socketHandler, "/wstimer").setAllowedOrigins("*")

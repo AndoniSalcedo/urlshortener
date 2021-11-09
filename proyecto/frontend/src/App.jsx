@@ -5,6 +5,7 @@ import SignIn from './screens/SignIn'
 import SignUp from './screens/SignUp'
 import UrlPage from './screens/UrlPage'
 import UrlUserPage from './screens/UrlUserPage'
+import WaitPage from './screens/WaitPage'
 
 import AuthContext from './contex'
 import history from './history'
@@ -74,6 +75,7 @@ const App = () => {
             }}></Route>
             <Route path="/urlpage" exact component={UrlPage}></Route>
             <Route path="/urluserpage" exact component={UrlUserPage}></Route>
+            <Route path="/s/:id" component={WaitPage}></Route>
           </Router>
         </section>
       
