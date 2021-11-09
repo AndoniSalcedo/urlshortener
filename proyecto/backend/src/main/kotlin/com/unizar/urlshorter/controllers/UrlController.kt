@@ -69,15 +69,25 @@ class UrlController(
 
     @PostMapping("/shorter")
     fun shorter(@RequestBody body: ShortIn): ResponseEntity<ShortOut> {
-        //Create url
-        var url = Url(body.url)
-        //Check if url us correct
-        checkUrl(url)
-        //Save url
-        var res = ShortOut(
-            url = url.shorter
-        )
-        return ResponseEntity<ShortOut>(res, HttpHeaders(), HttpStatus.CREATED)
+
+        var urlExist = urlRepository.findOneByUrl(body.url)
+
+        urlExist?.let{
+            var res = ShortOut(
+                url = urlExist.shorter
+            )
+            return ResponseEntity<ShortOut>(res, HttpHeaders(), HttpStatus. CREATED)
+        } ?: run{
+            //Create url
+            var url = Url(body.url)
+            //Check if url us correct
+            checkUrl(url)
+            //Save url
+            var res = ShortOut(
+                url = url.shorter
+            )
+            return ResponseEntity<ShortOut>(res, HttpHeaders(), HttpStatus.CREATED)
+        }
     }
 
     
@@ -97,24 +107,36 @@ class UrlController(
         if(user == null){
             return ResponseEntity<ShortOut>(null, HttpHeaders(), HttpStatus.NOT_FOUND)
         }
-        //Create a URL
-        var url = Url(body.url)
-        //Check if url is correct
-        checkUrl(url)
-        //Add Url to User urls
-        user.addUrl(url)
-        //Save url
-        urlRepository.save(url)        
-        //Save user
-        userRepository.save(user)
-
-        var res = ShortOut(
-            url = url.shorter
-        )
-
-        return ResponseEntity<ShortOut>(res, HttpHeaders(), HttpStatus.CREATED)
+        
+        var urlExist = urlRepository.findOneByUrl(body.url)
+        
+        urlExist?.let{
+            //URL currently exist
+            //Add Url to User urls
+            user.addUrl(urlExist)
+            //Save user
+            userRepository.save(user)
+            var res = ShortOut(
+                url = urlExist.shorter
+            )
+            return ResponseEntity<ShortOut>(res, HttpHeaders(), HttpStatus.CREATED)
+        } ?: run{
+            //URL dont exist
+            //Create url
+            var url = Url(body.url)
+            //Check if url us correct
+            checkUrl(url)
+            //Add Url to User urls
+            user.addUrl(url)
+            //Save user
+            userRepository.save(user)
+            var res = ShortOut(
+                url = url.shorter
+            )
+            return ResponseEntity<ShortOut>(res, HttpHeaders(), HttpStatus.CREATED)
+        }
     }
-    //TODO: how to return qr
+
     @GetMapping("/qr/{id}")
     fun qr(@PathVariable id: String): ResponseEntity<QrOut>  {
         //Find url by Id
