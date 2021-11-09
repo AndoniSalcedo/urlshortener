@@ -7,6 +7,9 @@ import java.nio.charset.StandardCharsets
 import com.google.zxing.qrcode.QRCodeWriter
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.common.BitMatrix
+import com.google.zxing.client.j2se.MatrixToImageWriter
+import java.io.ByteArrayOutputStream
+import java.util.*
 
 @Document(collection = "urls")
 class Url {
@@ -16,7 +19,7 @@ class Url {
     var shorter = ""
     var isValid = false
     var clicks  = 0
-    //var qr: BitMatrix = BitMatrix(512,512)
+    var qr  = ""
 
     constructor(url: String){
         this.url = url
@@ -24,7 +27,15 @@ class Url {
         val writer = QRCodeWriter()
         // Encodes the shorted url in a BitMatrix, using 'QR_CODE' format.
         val size = 512 // qr size in pixels
-        //this.qr = writer.encode(this.shorter, BarcodeFormat.QR_CODE, size, size)
+        val matQr = writer.encode(this.shorter, BarcodeFormat.QR_CODE, size, size)
+        val bos = ByteArrayOutputStream()
+        // Encodes BitMatrix as a PNG type Image, then its coded as a Base64 type array.
+        MatrixToImageWriter.writeToStream(matQr, "PNG", bos)
+        val qrString = Base64.getEncoder().encodeToString(bos.toByteArray())
+        if (qrString != null){
+            this.qr = qrString
+        }
+        // In the front, this could be displayed as a base64 coded png , like "<img src={`data:image/png;base64,${image}`} />"
 
     }
 

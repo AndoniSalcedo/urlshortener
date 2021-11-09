@@ -20,8 +20,6 @@ import java.net.URI;
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
-import com.google.zxing.client.j2se.MatrixToImageWriter
-import java.io.ByteArrayOutputStream
 
 import javax.imageio.ImageIO;
 
@@ -37,7 +35,7 @@ data class ShortOut(
 )
 
 data class QrOut(
-    var qr: String
+    var qr: String?
 )
 
 data class UrlsOut(
@@ -137,20 +135,16 @@ class UrlController(
         }
     }
 
-    /* @GetMapping("/qr/{id}")
+    @GetMapping("/qr/{id}")
     fun qr(@PathVariable id: String): ResponseEntity<QrOut>  {
         //Find url by Id
         var url = urlRepository.findOneById(id)
-        val bos = ByteArrayOutputStream()
-        // Encodes BitMatrix as a PNG type Image, then its coded as a Base64 type array.
-        MatrixToImageWriter.writeToStream(url?.qr, "PNG", bos)
-        val image = Base64.getEncoder().encodeToString(bos.toByteArray())
-        // In the front, this could be displayed as a base64 coded png , like "<img src={`data:image/png;base64,${image}`} />"
+
         var res = QrOut(
-            qr = image
+            qr = url?.qr
         )
         return ResponseEntity<QrOut>(res, HttpHeaders(), HttpStatus.CREATED)
-    } */
+    }
 
     @GetMapping("/user/urls")
     fun getUrls(@RequestHeader("accessToken") accessToken: String?) : ResponseEntity<UrlsOut> {
