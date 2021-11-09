@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import com.google.common.hash.Hashing
 import java.nio.charset.StandardCharsets
+import java.awt.image.BufferedImage
 import com.google.zxing.qrcode.QRCodeWriter
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.common.BitMatrix
@@ -23,8 +24,9 @@ class Url {
         this.shorter = Hashing.murmur3_32().hashString(url, StandardCharsets.UTF_8).toString()
         val writer = QRCodeWriter()
         // Encodes the shorted url in a BitMatrix, using 'QR_CODE' format.
-        // In the frontend, the QR image could be displayed by converting the BitMatrix to a black&white Bitmap.
-        this.qr = writer.encode(this.shorter, BarcodeFormat.QR_CODE, 512, 512)
+        val size = 512 // qr size in pixels
+        this.qr = writer.encode(this.shorter, BarcodeFormat.QR_CODE, size, size)
+
     }
 
     fun validateUrl(){

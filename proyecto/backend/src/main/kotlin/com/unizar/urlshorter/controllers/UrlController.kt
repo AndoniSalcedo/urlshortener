@@ -20,6 +20,9 @@ import java.net.URI;
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
+import java.awt.image.BufferedImage
+import com.google.zxing.client.j2se.MatrixToImageWriter
+import java.io.ByteArrayOutputStream
 
 import javax.imageio.ImageIO;
 
@@ -117,9 +120,13 @@ class UrlController(
     fun qr(@PathVariable id: String): ResponseEntity<QrOut>  {
         //Find url by Id
         var url = urlRepository.findOneById(id)
-        //Return qr of the url
+        val bos = ByteArrayOutputStream()
+        // Encodes BitMatrix as a PNG type Image, then its coded as a Base64 type array.
+        MatrixToImageWriter.writeToStream(url?.qr, "PNG", bos)
+        val image = Base64.getEncoder().encodeToString(bos.toByteArray())
+        // In the front, this could be displayed as a base64 coded png , like "<img src={`data:image/png;base64,${image}`} />"
         var res = QrOut(
-            qr = ""
+            qr = image
         )
         return ResponseEntity<QrOut>(res, HttpHeaders(), HttpStatus.CREATED)
     }
