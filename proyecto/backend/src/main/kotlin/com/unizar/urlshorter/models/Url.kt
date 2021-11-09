@@ -4,7 +4,6 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import com.google.common.hash.Hashing
 import java.nio.charset.StandardCharsets
-import java.awt.image.BufferedImage
 import com.google.zxing.qrcode.QRCodeWriter
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.common.BitMatrix
