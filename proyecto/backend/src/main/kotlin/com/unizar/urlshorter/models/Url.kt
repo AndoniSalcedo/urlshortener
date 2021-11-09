@@ -16,7 +16,7 @@ class Url {
     var shorter = ""
     var isValid = false
     var clicks  = 0
-    var qr: BitMatrix? = null
+    //var qr: BitMatrix = BitMatrix(512,512)
 
     constructor(url: String){
         this.url = url
@@ -24,7 +24,7 @@ class Url {
         val writer = QRCodeWriter()
         // Encodes the shorted url in a BitMatrix, using 'QR_CODE' format.
         val size = 512 // qr size in pixels
-        this.qr = writer.encode(this.shorter, BarcodeFormat.QR_CODE, size, size)
+        //this.qr = writer.encode(this.shorter, BarcodeFormat.QR_CODE, size, size)
 
     }
 

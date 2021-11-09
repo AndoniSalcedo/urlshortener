@@ -137,7 +137,7 @@ class UrlController(
         }
     }
 
-    @GetMapping("/qr/{id}")
+    /* @GetMapping("/qr/{id}")
     fun qr(@PathVariable id: String): ResponseEntity<QrOut>  {
         //Find url by Id
         var url = urlRepository.findOneById(id)
@@ -150,7 +150,7 @@ class UrlController(
             qr = image
         )
         return ResponseEntity<QrOut>(res, HttpHeaders(), HttpStatus.CREATED)
-    }
+    } */
 
     @GetMapping("/user/urls")
     fun getUrls(@RequestHeader("accessToken") accessToken: String?) : ResponseEntity<UrlsOut> {
