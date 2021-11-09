@@ -20,11 +20,13 @@ class WSController : TextWebSocketHandler() {
     
     //@Throws(Exception::class)
     override fun afterConnectionEstablished(session: WebSocketSession) {
-        session.sendMessage(TextMessage("Connection Established!"))
+        //session.sendMessage(TextMessage("Connection Established!"))
+        println("WebSocket connection established");
     }
 
     override fun afterConnectionClosed(session: WebSocketSession, status: CloseStatus) {
-        session.sendMessage(TextMessage("Connection Closed, reason: " + status))
+        //session.sendMessage(TextMessage("Connection Closed, reason: " + status))
+        println("WebSocket connection closed");
     }
 
     //@Throws(InterruptedException::class, IOException::class)
@@ -32,16 +34,15 @@ class WSController : TextWebSocketHandler() {
         //Test response
 		println("Incoming Message: '" + message.payload + "', waiting 10 seconds...");
 
+        var shortURL = message.payload
+
+        //Retrieve long URL from short URL
+
+        var longURL = "http://www.google.com"
+
         Thread.sleep(10000)
 
         println("Sending Response...");
-        session.sendMessage(TextMessage("Message Recived!"))
-
-
-        //TextMessage should have the shortened URL
-
-        //When a text message is recieved, wait 10 seconds
-
-        //After waiting time is up, get correct URL and send it through the socket
+        session.sendMessage(TextMessage(longURL))
     }
 }

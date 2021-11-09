@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
 const WaitPage = (props) => {
     const params = props.match.params
@@ -7,43 +7,41 @@ const WaitPage = (props) => {
     const ws = React.createRef() //Make sure it doesn't get initialized each time a render is done
 
     const shortURL = params.id
-    const unshorteredURL = ""
+    const [longURL,setlongURL] = useState("")
 
-    const firstFunctionRun = false
-
+    const redirectFromURL = async() => {
+        try {
+            window.location.replace(longURL)
+        }catch(err){
+            console.log(err)
+        }
+    }
 
     //Run on module (Really websocket) load
     useEffect(() => {
-        const firstFunctionRun = true
         ws.current = new WebSocket(wsURL);
-        //ws.send(shortURL)
         console.log("UseEffect")
 
         ws.current.onopen = (event) => {
-            if(firstFunctionRun) {
-                console.log("ws.onopen");
-                ws.current.send(shortURL)
-            }
+            console.log("ws.onopen");
+            ws.current.send(shortURL)
         }
     
         ws.current.onmessage = (event) => {
-            if(firstFunctionRun) {
-                const unshorteredURL = event.data
-                console.log("OnMessage: '" + unshorteredURL + "'")
-            }
+            setlongURL(event.data)
+            console.log("OnMessage: '" + event.data + "'")
         }
-    }, []);
-
-    const retrieveURL = async () => {
-        const unshorteredURL = "Your URL: http://www.google.com"
-    }
+    }, []); //Warning here, ignore
 
     return (
         <section className="content">
             Waiting 10 seconds to give you the link...
             
             <p>[DEBUG] Short URL ID = {shortURL}</p>
-            <p>{unshorteredURL}</p>
+            { longURL !== "" //Show redirect button when we've received the URL from the server
+                ? <button type="button" className="btn" style={{backgroundImage: "linear-gradient(to right, #EA4C46, #F07470, #F1959B)", color: 'white'}} onClick={redirectFromURL}>Ir a '{longURL}'</button>
+                : null
+            }
         </section>
     );
 }
