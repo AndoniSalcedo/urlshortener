@@ -34,6 +34,10 @@ data class ShortOut(
     var url: String 
 )
 
+data class QrIn(
+    var url: String
+)
+
 data class QrOut(
     var qr: String?
 )
@@ -135,10 +139,10 @@ class UrlController(
         }
     }
 
-    @GetMapping("/qr/{id}")
-    fun qr(@PathVariable id: String): ResponseEntity<QrOut>  {
+    @PostMapping("/qr")
+    fun qr(@RequestBody body: QrIn): ResponseEntity<QrOut>  {
         //Find url by Id
-        var url = urlRepository.findOneById(id)
+        var url = urlRepository.findOneByUrl(body.url)
 
         var res = QrOut(
             qr = url?.qr
