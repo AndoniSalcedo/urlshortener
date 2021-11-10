@@ -7,10 +7,8 @@ import UrlPage from './screens/UrlPage'
 import UrlUserPage from './screens/UrlUserPage'
 import WaitPage from './screens/WaitPage'
 
-import AuthContext from './contex'
+import AuthContext from './context'
 import history from './history'
-
-import 'bootstrap/dist/css/bootstrap.min.css'
 
 const App = () => {
 

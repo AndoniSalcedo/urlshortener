@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 
-import AuthContext from '../contex'
+import AuthContext from '../context'
 import axios from 'axios'
 
 import history from "../history"

@@ -1,6 +1,5 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 
-import AuthContext from '../contex'
 import axios from 'axios'
 
 import history from "../history"

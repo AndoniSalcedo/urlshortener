@@ -1,6 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState } from 'react'
 
-import AuthContext from '../contex'
 import axios from 'axios'
 
 import history from "../history"
@@ -18,7 +17,7 @@ const UrlUserPage = () => {
             const res = await axios.post("http://localhost:8080/api/user/shorter",
                 {url: urlToShort},
                 {headers: {"accessToken" : token}})
-            setUrlShorted("http://localhost:3000/api/"+res.data.url)
+            setUrlShorted("http://localhost:3000/s/"+res.data.url)
             console.log(res.data)
             console.log(res.data.url)
             console.log(urlShorted)
