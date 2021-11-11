@@ -68,3 +68,14 @@ button:hover.logout {
     background-color: #db1010;
     color: white;
 }
+
+section.wait-page{
+    display: inline-block;
+    width: auto;
+    box-shadow: 0 10px 20px 0 rgba(0,0,0,0.2);
+    border: 3px solid #4B194D;
+    transition: 0.3s;
+    background-color: white;
+    padding: 25px;
+    border-radius: 30px;
+}

@@ -34,7 +34,7 @@ const WaitPage = (props) => {
     }, []); //Warning here, ignore
 
     return (
-        <section className="content">
+        <section className="wait-page">
             Waiting 10 seconds to give you the link...
             
             <p>[DEBUG] Short URL ID = {shortURL}</p>
