@@ -7,25 +7,32 @@ import history from "../history"
 const UrlPage = () => {
     const [urlToShort,seturlToShort] = useState("")
     
-    const [urlShorted, setUrlShorted]= useState("Not url shorted yet")
+    const [urlShorted, setUrlShorted]= useState("")
 
     const [qr, setQr] = useState("")
 
     const shortUrl = async () => {
-        try{
-            const res = await axios.post("http://localhost:8080/api/shorter",{
-                url: urlToShort,
-            })
-            setUrlShorted("http://localhost:3000/s/"+res.data.url)
-            console.log(res.data)
-            console.log(res.data.url)
-            console.log(urlShorted)
-        }catch(err){
-            console.log(err)
+        if(urlToShort === ""){
+
+        }else{
+            try{
+                const res = await axios.post("http://localhost:8080/api/shorter",{
+                    url: urlToShort,
+                })
+                setUrlShorted("http://localhost:3000/s/"+res.data.url)
+                console.log(res.data)
+                console.log(res.data.url)
+                console.log(urlShorted)
+            }catch(err){
+                console.log(err)
+            }
         }
     }
 
     const getQr = async () => {
+        if(urlShorted === ""){
+
+        }else{
                 try{
                     const res = await axios.post("http://localhost:8080/api/qr",{
                         url: urlToShort,
@@ -36,6 +43,7 @@ const UrlPage = () => {
                     console.log(err)
                 }
             }
+        }
 
 
 
@@ -60,7 +68,7 @@ const UrlPage = () => {
                             <button type="button" className="btn" onClick={()=>{history.push('/signin')}}>SignIn</button>
                             <button type="button" className="btn" onClick={()=>{history.push('/signup')}}>Registrarse</button>
                             <button type="button" className="btn" onClick={getQr}>Generar QR</button>
-                            { qr != "" ?
+                            { qr !== "" ?
                                 <>
                                     <p>Código QR: </p>
                                     <img src={"data:image/png;base64," +  qr} />
