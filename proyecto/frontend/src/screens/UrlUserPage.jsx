@@ -41,8 +41,8 @@ const UrlUserPage = () => {
                             />
                         </section>
                         <p>Url recortada: {urlShorted}</p>
-                        <button type="button" className="btn" style={{backgroundImage: "linear-gradient(to right, #EA4C46, #F07470, #F1959B)", color: 'white'}} onClick={shortUrl}>Recortar</button>
-                        <button type="button" className="btn" style={{backgroundImage: "linear-gradient(to right, #EA4C46, #F07470, #F1959B)", color: 'white'}} onClick={()=>{history.push('/signout')}}>Log-out</button>
+                        <button type="button" className="btn" onClick={shortUrl}>Recortar</button>
+                        <button type="button" className="logout" onClick={()=>{history.push('/signout')}}>Log-out</button>
                     </section>
                 </form>
             </section>

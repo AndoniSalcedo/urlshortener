@@ -66,8 +66,8 @@ const SignUp = () => {
             	        </section>
                     </section>
                     <section className="line"></section>
-            	    <button type="button" className="btn" style={{backgroundImage: "linear-gradient(to right, #32be8f, #38d39f, #32be8f)", color: 'white'}} onClick={registerUser}>Register</button>
-                    <button type="button" className="btn" style={{backgroundImage: "linear-gradient(to right, #EA4C46, #F07470, #F1959B)", color: 'white'}} onClick={()=>{history.push('/signin')}}>SignIn</button>
+            	    <button type="button" className="btn" onClick={registerUser}>Register</button>
+                    <button type="button" className="btn"  onClick={()=>{history.push('/signin')}}>SignIn</button>
                 </form>
             </section>
         );

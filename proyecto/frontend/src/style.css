@@ -1,0 +1,70 @@
+
+body {
+    text-align: center;
+    background-image: url(./wallpaper.svg);
+}
+
+h1{
+	text-align: center;
+	text-transform: uppercase;
+	margin: 15px 0;
+	color: #333;
+	font-size: 1.5rem;
+}
+
+input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+form{
+    display: inline-block;
+    width: auto;
+    box-shadow: 0 10px 20px 0 rgba(0,0,0,0.2);
+    border: 3px solid #4B194D;
+    transition: 0.3s;
+    background-color: white;
+    padding: 75px;
+    border-radius: 30px;
+}
+
+button {
+    border-radius: 4px;
+    background-color: white;
+    color: black;
+    border: 2px solid #4B194D;
+    padding: 8px 15px;
+    display: inline-block;
+    margin: 4px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+button:hover {
+    background-color: #4B194D;
+    color: white;
+}
+
+button.logout {
+    border-radius: 4px;
+    background-color: white;
+    color: black;
+    border: 2px solid #db1010;
+    padding: 8px 15px;
+    display: inline-block;
+    margin: 4px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+button:hover.logout {
+    background-color: #db1010;
+    color: white;
+}
