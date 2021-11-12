@@ -132,9 +132,17 @@ Se han analizado las características del equipo de trabajo y los requerimientos
     \hline
     
     Cumplimiento &
-     \labelitemi \quad El usuario recibirá por correo el enlace recortado que ha sido creado. &&
+     \labelitemi \quad Cuando un usuario cree una URI acortada se le proporcionará además una URI que devolverá un código QR que contendrá codificada la URI acortada &&
 
-     \labelitemi \quad Al usuario se le ofrecerá un QR para poder compartir de una manera más sencilla la URL . \\
+     \labelitemi \quad Si esta funcionalidad se implementa con un API Web su implementación será consistente con la semántica de http. &&
+     
+     implica: &&
+     \labelitemi \quad POST /short y POST /user/short soportará un parámetro opcional por el que se indicará si habrá o no una representación en código QR de la URI acortada. Si
+     no está presente se entenderá que no habrá código QR. La respuesta
+     http contendrá en el JSON una propiedad que tendrá la dirección URI
+     completa del código QR  &&
+     
+     \labelitemi \quad GET /qr devolverá el QR correspondiente a una dirección URL en caso de estar marcado el campo correspondiente a la representación del codigo QR\\
         
     Escalabilidad & 
     5: && 
@@ -164,12 +172,18 @@ Se han analizado las características del equipo de trabajo y los requerimientos
     \hline
     
     Cumplimiento &
-        \labelitemi \quad La información que se necesita se obtiene previamente, por ejemplo, en el momento en que el usuario se identifica. &&
-        \labelitemi \quad A la hora realizar una operación, se lanzará un proceso asíncrono que se encargue de actualizar la lista a mostrar. &&
-        \labelitemi \quad La lista de URIs se debe devolver en un tiempo máximo configurable. &&
+        \labelitemi \quad El usuario puede registrarse en la aplicación. &&
         \labelitemi \quad Estas nuevas URIs generadas deben de guardarse en el servidor Web, y también se tiene que guardar que usuario la ha generado. &&
- 
-        \labelitemi \quad Opcionalmente, el usuario puede decidir que debe recibir "puntos" en su cuenta por cada vez que una de las URIs generadas por este es usada. \\
+        \labelitemi \quad Opcionalmente, el usuario puede decidir que debe recibir "puntos" en su cuenta por cada vez que una de las URIs generadas por este es usada.
+        
+        implica:
+
+        \labelitemi \quad POST /register soportará tres parametros nombre, email y contraseña. Se guardará el usuario especificado en la base de datos &&
+
+        \labelitemi \quad POST /login soportará dos parametros, email y contraseña, si las credenciales coenciden con un usuario en almacenado en la base de datos, se iniciara una sesión. &&
+
+        \labelitemi \quad POST /user/shorter soportará los mismos parametros que soporta /shorter y además asignará esa url al usuario, Requiere establecer sesión. 
+        \\
         
     Escalabilidad &
     5: &&
@@ -180,12 +194,11 @@ Se han analizado las características del equipo de trabajo y los requerimientos
 
         \quad \labelitemi \quad La información que se necesita se obtiene previamente, sesión de usuario persistente. &&
 		
-        \quad \labelitemi \quad A la hora realizar una operación, se lanzará un proceso asíncrono que se encargue de actualizar la lista a mostrar. &&
- 
-        \quad \labelitemi \quad La aplicación permitirá al usuario eliminar sus URL creadas. &&
+        \quad \labelitemi \quad La gestión de la sesión es relegada al usuario para ahorrar tiempo de procesamiento al servidor &&
     15: &&
         \quad \labelitemi \quad Cumplir nivel 10. && 
-        \quad \labelitemi \quad La aplicación almacenará el número de clicks realizados sobre cada URL del usuario. \\
+        \quad \labelitemi \quad La base de datos es desplegada a través de un servicio externo que proporcione escalabilidad, persistencia y tolerancia a fallos.
+         \\
  
     Profesionalidad & 
     \labelitemi \quad El API expuesto al usuario tendrá pruebas automáticas que verificarán el cumplimiento. &&
@@ -223,7 +236,7 @@ Se han analizado las características del equipo de trabajo y los requerimientos
         \item Cumple el nivel 5
 		
         \item La petición de la URL es asincrónica y está no se devolverá hasta que halla pasado el tiempo esperado.
-        \item Se evitará la obtención de la URL antes del tiempo de espera, utilizando un canal de comunicación bidireccional.
+        \item Se evitará la obtención de la URL antes del tiempo de espera.
         
     \end{itemize} 
     15:
