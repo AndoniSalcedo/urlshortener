@@ -34,12 +34,12 @@ const WaitPage = (props) => {
     }, []); //Warning here, ignore
 
     return (
-        <section className="content">
+        <section className="wait-page">
             Waiting 10 seconds to give you the link...
             
             <p>[DEBUG] Short URL ID = {shortURL}</p>
             { longURL !== "" //Show redirect button when we've received the URL from the server
-                ? <button type="button" className="btn" style={{backgroundImage: "linear-gradient(to right, #EA4C46, #F07470, #F1959B)", color: 'white'}} onClick={redirectFromURL}>Ir a '{longURL}'</button>
+                ? <button type="button" className="btn" onClick={redirectFromURL}>Ir a '{longURL}'</button>
                 : null
             }
         </section>

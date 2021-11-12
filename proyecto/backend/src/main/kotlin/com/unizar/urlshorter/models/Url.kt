@@ -26,8 +26,9 @@ class Url {
         this.shorter = Hashing.murmur3_32().hashString(url, StandardCharsets.UTF_8).toString()
         val writer = QRCodeWriter()
         // Encodes the shorted url in a BitMatrix, using 'QR_CODE' format.
-        val size = 512 // qr size in pixels
-        val matQr = writer.encode(this.shorter, BarcodeFormat.QR_CODE, size, size)
+        val size = 256 // qr size in pixels
+        var dirToQr = "http://localhost:3000/s/"+this.shorter
+        val matQr = writer.encode(dirToQr, BarcodeFormat.QR_CODE, size, size)
         val bos = ByteArrayOutputStream()
         // Encodes BitMatrix as a PNG type Image, then its coded as a Base64 type array.
         MatrixToImageWriter.writeToStream(matQr, "PNG", bos)
