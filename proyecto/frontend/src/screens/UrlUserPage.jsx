@@ -18,9 +18,7 @@ const UrlUserPage = () => {
                 {url: urlToShort},
                 {headers: {"accessToken" : token}})
             setUrlShorted("http://localhost:3000/s/"+res.data.url)
-            console.log(res.data)
-            console.log(res.data.url)
-            console.log(urlShorted)
+
         }catch(err){
             console.log(err)
         }
