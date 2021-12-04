@@ -25,6 +25,8 @@ import javax.imageio.ImageIO;
 
 import org.bson.types.ObjectId
 
+import org.springframework.security.core.context.SecurityContextHolder
+
 
 data class ShortIn(
     var url: String 
@@ -95,16 +97,13 @@ class UrlController(
     
 
     @PostMapping("/user/shorter")
-    fun userShorter(@RequestBody body: ShortIn, @RequestHeader("accessToken") accessToken: String?): ResponseEntity<ShortOut>  {
-        //Check if header exist
-        if( accessToken == null){
-            return ResponseEntity<ShortOut>(null, HttpHeaders(), HttpStatus.BAD_REQUEST)
-        }
-        //Extract Id from JWT payload
-        //TODO: global secret
-        var id = Jwts.parser().setSigningKey("secret").parseClaimsJws(accessToken).body
-        //Get user
-        var user = userRepository.findOneById(ObjectId(id.issuer))
+    fun userShorter(@RequestBody body: ShortIn): ResponseEntity<ShortOut>  {
+
+
+    
+        var id = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()
+
+        var user = userRepository.findOneById(ObjectId(id))
         //Check if user exist
         if(user == null){
             return ResponseEntity<ShortOut>(null, HttpHeaders(), HttpStatus.NOT_FOUND)
@@ -151,17 +150,12 @@ class UrlController(
     }
 
     @GetMapping("/user/urls")
-    fun getUrls(@RequestHeader("accessToken") accessToken: String?) : ResponseEntity<UrlsOut> {
+    fun getUrls() : ResponseEntity<UrlsOut> {
         //TODO: to solve url dont return url.click's update
-        //Check if header exist
-        if( accessToken == null){
-            return ResponseEntity<UrlsOut>(null, HttpHeaders(), HttpStatus.BAD_REQUEST)
-        }
-        //Extract Id from JWT payload
-        //TODO: global secret
-        var id = Jwts.parser().setSigningKey("secret").parseClaimsJws(accessToken).body
+
+        var id = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()
         //Get user
-        var user = userRepository.findOneById(ObjectId(id.issuer))
+        var user = userRepository.findOneById(ObjectId(id))
         //Check if user exist
         if(user == null){
             return ResponseEntity<UrlsOut>(null ,HttpHeaders(), HttpStatus.NOT_FOUND)

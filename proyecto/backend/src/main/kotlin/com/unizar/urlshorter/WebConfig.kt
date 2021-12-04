@@ -14,3 +14,5 @@ class WebConfig : WebMvcConfigurer {
             .allowCredentials(true)
     }
 }
+
+

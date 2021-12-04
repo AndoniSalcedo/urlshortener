@@ -66,7 +66,7 @@ class UserController( val userRepository: UserRepository){
         var jwt = Jwts.builder().setIssuer(issuer).signWith(SignatureAlgorithm.HS512, "secret").compact()
   
         var res = LoginOut(
-            accessToken = jwt
+            accessToken = "Bearer " + jwt
         )
         
         return ResponseEntity<LoginOut>(res,HttpHeaders(), HttpStatus.OK)
