@@ -1,7 +1,21 @@
+@font-face {
+    font-family: 'josefin';
+    src: url('./josefinsans-variablefont_wght-webfont.woff2') format('woff2'),
+         url('./josefinsans-variablefont_wght-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 body {
     text-align: center;
-    background-image: url(./wallpaper.svg);
+    background-image: url(./radiant-gradient.svg);
+	background-attachment: fixed;
+	background-size: cover;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
 }
 
 h1{
@@ -9,13 +23,17 @@ h1{
 	text-transform: uppercase;
 	margin: 15px 0;
 	color: #333;
-	font-size: 1.5rem;
+	font-size: 5rem;
+    font-family: 'josefin';
 }
 
 input[type=text] {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #333;
+    border-radius: 4px;
     box-sizing: border-box;
 }
 
@@ -24,6 +42,11 @@ input[type=password] {
     padding: 12px 20px;
     margin: 8px 0;
     box-sizing: border-box;
+    font-family: 'josefin_sansthin';
+    src: url('./josefinsans-variablefont_wght-webfont.woff2') format('woff2'),
+         url('./josefinsans-variablefont_wght-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
 form{
@@ -32,14 +55,14 @@ form{
     box-shadow: 0 10px 20px 0 rgba(0,0,0,0.2);
     border: 3px solid #4B194D;
     transition: 0.3s;
-    background-color: white;
+    background-color: #FFFFFFBB;
     padding: 75px;
     border-radius: 30px;
 }
 
 button {
     border-radius: 4px;
-    background-color: white;
+    background-color: #e4db7f;
     color: black;
     border: 2px solid #4B194D;
     padding: 8px 15px;
@@ -49,8 +72,9 @@ button {
 }
 
 button:hover {
-    background-color: #4B194D;
+    background-color: #5f59cc;
     color: white;
+    border: 2px solid #5f59cc;
 }
 
 button.logout {
