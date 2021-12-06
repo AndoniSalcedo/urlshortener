@@ -8,6 +8,10 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
+import org.springframework.scheduling.concurrent.*
+import org.springframework.scheduling.annotation.*
+import org.springframework.context.annotation.*
+import java.util.concurrent.*
 
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
@@ -28,38 +32,40 @@ data class LoginOut(
     var accessToken: String
 )
 
+
+
 @RestController
 @RequestMapping("/auth")
 class UserController( val userRepository: UserRepository){
-    
+
     @PostMapping("/register")
-    fun register(@RequestBody body: RegisterIn): ResponseEntity<Void>  {
+    fun register(@RequestBody body: RegisterIn): CompletableFuture<ResponseEntity<Void>>  {
 
         //TODO: valid data
         var userExist = userRepository.findOneByEmail(body.email)
         //Check if User email already exist
         if(userExist != null){
-            return ResponseEntity<Void>(HttpHeaders(), HttpStatus.CONFLICT)
+            return  CompletableFuture.completedFuture(ResponseEntity<Void>(HttpHeaders(), HttpStatus.CONFLICT))
         }
         //Create a new user
         var user = User(body.name,body.email,body.password)
         //Save user
         userRepository.save(user)
 
-        return ResponseEntity<Void>(HttpHeaders(), HttpStatus.CREATED)
+        return CompletableFuture.completedFuture(ResponseEntity<Void>(HttpHeaders(), HttpStatus.CREATED))
     }
     
     @PostMapping("/login")
-    fun login(@RequestBody body: LoginIn) : ResponseEntity<LoginOut> {
+    fun login(@RequestBody body: LoginIn) : CompletableFuture<ResponseEntity<LoginOut>> {
         
         var user = userRepository.findOneByEmail(body.email)
         //Check if user exist
         if(user == null){
-            return ResponseEntity<LoginOut>(null,HttpHeaders(), HttpStatus.NOT_FOUND)
+            return  CompletableFuture.completedFuture(ResponseEntity<LoginOut>(null,HttpHeaders(), HttpStatus.NOT_FOUND))
         }
         //Check if password's are the same
         if(!user.comparePassword(body.password)){
-            return ResponseEntity<LoginOut>(null,HttpHeaders(), HttpStatus.UNAUTHORIZED)
+            return  CompletableFuture.completedFuture(ResponseEntity<LoginOut>(null,HttpHeaders(), HttpStatus.UNAUTHORIZED))
         }
 
         var issuer = user.id.toString()
@@ -69,6 +75,6 @@ class UserController( val userRepository: UserRepository){
             accessToken = "Bearer " + jwt
         )
         
-        return ResponseEntity<LoginOut>(res,HttpHeaders(), HttpStatus.OK)
+        return  CompletableFuture.completedFuture(ResponseEntity<LoginOut>(res,HttpHeaders(), HttpStatus.OK))
     }
 }

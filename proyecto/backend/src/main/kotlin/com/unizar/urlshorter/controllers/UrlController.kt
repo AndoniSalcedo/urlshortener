@@ -26,7 +26,10 @@ import javax.imageio.ImageIO;
 import org.bson.types.ObjectId
 
 import org.springframework.security.core.context.SecurityContextHolder
-
+import org.springframework.scheduling.concurrent.*
+import org.springframework.scheduling.annotation.*
+import org.springframework.context.annotation.*
+import java.util.concurrent.*
 
 data class ShortIn(
     var url: String 
@@ -48,13 +51,29 @@ data class UrlsOut(
     var urls: ArrayList<Url>?
 )
 
+
+
 @RestController
 @RequestMapping("/api")
 class UrlController(
     var urlRepository: UrlRepository,
     var userRepository: UserRepository){
-    
-    
+
+    @Configuration
+    @EnableAsync
+    class ThreadPoolConfig {
+        @Bean
+        fun taskExecutor(): Executor {
+            val executor = ThreadPoolTaskExecutor()
+            executor.corePoolSize = 2
+            executor.maxPoolSize = 2
+            executor.setQueueCapacity(500)
+            executor.setThreadNamePrefix("Controller-")
+            executor.initialize()
+            return executor
+        }
+    }
+
     fun checkUrl(url: Url) {
         try {
             val client = HttpClient.newBuilder().build();
@@ -72,7 +91,7 @@ class UrlController(
     
 
     @PostMapping("/shorter")
-    fun shorter(@RequestBody body: ShortIn): ResponseEntity<ShortOut> {
+    fun shorter(@RequestBody body: ShortIn): CompletableFuture<ResponseEntity<ShortOut>> {
 
         var urlExist = urlRepository.findOneByUrl(body.url)
 
@@ -80,7 +99,7 @@ class UrlController(
             var res = ShortOut(
                 url = urlExist.shorter
             )
-            return ResponseEntity<ShortOut>(res, HttpHeaders(), HttpStatus. CREATED)
+            return CompletableFuture.completedFuture(ResponseEntity<ShortOut>(res, HttpHeaders(), HttpStatus. CREATED))
         } ?: run{
             //Create url
             var url = Url(body.url)
@@ -90,14 +109,14 @@ class UrlController(
             var res = ShortOut(
                 url = url.shorter
             )
-            return ResponseEntity<ShortOut>(res, HttpHeaders(), HttpStatus.CREATED)
+            return CompletableFuture.completedFuture(ResponseEntity<ShortOut>(res, HttpHeaders(), HttpStatus. CREATED))
         }
     }
 
     
 
     @PostMapping("/user/shorter")
-    fun userShorter(@RequestBody body: ShortIn): ResponseEntity<ShortOut>  {
+    fun userShorter(@RequestBody body: ShortIn): CompletableFuture<ResponseEntity<ShortOut>>  {
 
 
     
@@ -106,7 +125,7 @@ class UrlController(
         var user = userRepository.findOneById(ObjectId(id))
         //Check if user exist
         if(user == null){
-            return ResponseEntity<ShortOut>(null, HttpHeaders(), HttpStatus.NOT_FOUND)
+            return CompletableFuture.completedFuture(ResponseEntity<ShortOut>(null, HttpHeaders(), HttpStatus.NOT_FOUND))
         }
         
         var urlExist = urlRepository.findOneByUrl(body.url)
@@ -120,7 +139,7 @@ class UrlController(
             var res = ShortOut(
                 url = urlExist.shorter
             )
-            return ResponseEntity<ShortOut>(res, HttpHeaders(), HttpStatus.CREATED)
+            return CompletableFuture.completedFuture(ResponseEntity<ShortOut>(res, HttpHeaders(), HttpStatus.CREATED))
         } ?: run{
             //URL dont exist
             //Create url
@@ -134,23 +153,23 @@ class UrlController(
             var res = ShortOut(
                 url = url.shorter
             )
-            return ResponseEntity<ShortOut>(res, HttpHeaders(), HttpStatus.CREATED)
+            return CompletableFuture.completedFuture(ResponseEntity<ShortOut>(res, HttpHeaders(), HttpStatus.CREATED))
         }
     }
 
     @PostMapping("/qr")
-    fun qr(@RequestBody body: QrIn): ResponseEntity<QrOut>  {
+    fun qr(@RequestBody body: QrIn): CompletableFuture<ResponseEntity<QrOut>>  {
         //Find url by Id
         var url = urlRepository.findOneByUrl(body.url)
 
         var res = QrOut(
             qr = url?.qr
         )
-        return ResponseEntity<QrOut>(res, HttpHeaders(), HttpStatus.CREATED)
+        return CompletableFuture.completedFuture(ResponseEntity<QrOut>(res, HttpHeaders(), HttpStatus.CREATED))
     }
 
     @GetMapping("/user/urls")
-    fun getUrls() : ResponseEntity<UrlsOut> {
+    fun getUrls() : CompletableFuture<ResponseEntity<UrlsOut>> {
         //TODO: to solve url dont return url.click's update
 
         var id = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()
@@ -158,29 +177,29 @@ class UrlController(
         var user = userRepository.findOneById(ObjectId(id))
         //Check if user exist
         if(user == null){
-            return ResponseEntity<UrlsOut>(null ,HttpHeaders(), HttpStatus.NOT_FOUND)
+            return CompletableFuture.completedFuture(ResponseEntity<UrlsOut>(null ,HttpHeaders(), HttpStatus.NOT_FOUND))
         }
         //Create response
         var res = UrlsOut(
             urls = user.urls
         )
 
-        return ResponseEntity<UrlsOut>(res, HttpHeaders(), HttpStatus.OK)
+        return CompletableFuture.completedFuture(ResponseEntity<UrlsOut>(res, HttpHeaders(), HttpStatus.OK))
     }
     
     // Depecrated func
     @Deprecated(message = "Past Test Functionality")
     @GetMapping("/tiny-{shorter:.*}")
-    fun redirect(@PathVariable shorter: String) : ResponseEntity<ShortOut> {
+    fun redirect(@PathVariable shorter: String) : CompletableFuture<ResponseEntity<ShortOut>> {
         
         //Find if the url exist
         var url = urlRepository.findOneByShorter(shorter)
         if(url == null){
-            return ResponseEntity<ShortOut>(null, HttpHeaders(), HttpStatus.UNAUTHORIZED)
+            return CompletableFuture.completedFuture(ResponseEntity<ShortOut>(null, HttpHeaders(), HttpStatus.UNAUTHORIZED))
         }
         // Find if Url is valid
         if(!url.isValid){
-            return ResponseEntity<ShortOut>(null, HttpHeaders(), HttpStatus.UNAUTHORIZED)
+            return CompletableFuture.completedFuture(ResponseEntity<ShortOut>(null, HttpHeaders(), HttpStatus.UNAUTHORIZED))
         }
 
         fun addClick() {
@@ -194,6 +213,6 @@ class UrlController(
             url = url.url
         )
         
-        return ResponseEntity<ShortOut>(res, HttpHeaders(), HttpStatus.CREATED)
+        return CompletableFuture.completedFuture(ResponseEntity<ShortOut>(res, HttpHeaders(), HttpStatus.CREATED))
     }
 }
