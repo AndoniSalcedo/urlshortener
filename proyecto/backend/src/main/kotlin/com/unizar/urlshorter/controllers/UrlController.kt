@@ -6,7 +6,6 @@ import com.unizar.urlshorter.models.Url
 import com.unizar.urlshorter.repositories.UserRepository
 import com.unizar.urlshorter.models.User
 
-
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -30,6 +29,8 @@ import org.springframework.scheduling.concurrent.*
 import org.springframework.scheduling.annotation.*
 import org.springframework.context.annotation.*
 import java.util.concurrent.*
+import org.springframework.core.task.TaskExecutor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 data class ShortIn(
     var url: String 
@@ -59,20 +60,8 @@ class UrlController(
     var urlRepository: UrlRepository,
     var userRepository: UserRepository){
 
-    @Configuration
-    @EnableAsync
-    class ThreadPoolConfig {
-        @Bean
-        fun taskExecutor(): Executor {
-            val executor = ThreadPoolTaskExecutor()
-            executor.corePoolSize = 2
-            executor.maxPoolSize = 2
-            executor.setQueueCapacity(500)
-            executor.setThreadNamePrefix("Controller-")
-            executor.initialize()
-            return executor
-        }
-    }
+
+
 
     // Async
     fun checkUrl(url: Url) {
@@ -90,7 +79,7 @@ class UrlController(
         }
     }
     
-
+    @Async("taskExecutor")
     @PostMapping("/shorter")
     fun shorter(@RequestBody body: ShortIn): CompletableFuture<ResponseEntity<ShortOut>> {
 
@@ -110,8 +99,8 @@ class UrlController(
        return CompletableFuture.completedFuture(ResponseEntity<ShortOut>(shortOut, HttpHeaders(), HttpStatus. CREATED))
     }
 
-    
 
+    @Async("taskExecutor")
     @PostMapping("/user/shorter")
     fun userShorter(@RequestBody body: ShortIn): CompletableFuture<ResponseEntity<ShortOut>>  {
 
@@ -154,6 +143,7 @@ class UrlController(
         }
     }
 
+    @Async("taskExecutor")
     @PostMapping("/qr")
     fun qr(@RequestBody body: QrIn): CompletableFuture<ResponseEntity<QrOut>>  {
         //Find url by Id
@@ -165,6 +155,7 @@ class UrlController(
         return CompletableFuture.completedFuture(ResponseEntity<QrOut>(res, HttpHeaders(), HttpStatus.CREATED))
     }
 
+    @Async("taskExecutor")
     @GetMapping("/user/urls")
     fun getUrls() : CompletableFuture<ResponseEntity<UrlsOut>> {
         //TODO: to solve url dont return url.click's update
@@ -185,6 +176,7 @@ class UrlController(
     }
     
     // Depecrated func
+    @Async("taskExecutor")
     @Deprecated(message = "Past Test Functionality")
     @GetMapping("/tiny-{shorter:.*}")
     fun redirect(@PathVariable shorter: String) : CompletableFuture<ResponseEntity<ShortOut>> {
