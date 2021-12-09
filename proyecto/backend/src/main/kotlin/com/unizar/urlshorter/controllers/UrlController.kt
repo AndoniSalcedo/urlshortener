@@ -60,9 +60,6 @@ class UrlController(
     var urlRepository: UrlRepository,
     var userRepository: UserRepository){
 
-
-
-
     // Async
     fun checkUrl(url: Url) {
         try {

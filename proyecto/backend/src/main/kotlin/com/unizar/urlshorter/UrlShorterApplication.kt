@@ -26,9 +26,7 @@ class WSConfig : WebSocketConfigurer {
 }
 
 @SpringBootApplication
-
 class UrlshorterApplication
-
 fun main(args: Array<String>) {
 	runApplication<UrlshorterApplication>(*args)
 }

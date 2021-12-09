@@ -22,6 +22,8 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 		with(http) {
 			csrf().disable()
 
+			cors().and()
+
 			addFilterAfter(jsonAuthorizationFilter, UsernamePasswordAuthenticationFilter::class.java)
 			
 			authorizeRequests()

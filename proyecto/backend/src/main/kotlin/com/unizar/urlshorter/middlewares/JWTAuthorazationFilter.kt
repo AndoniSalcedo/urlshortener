@@ -30,13 +30,14 @@ class JWTAuthorizationFilter : OncePerRequestFilter() {
 	override fun doFilterInternal(req: HttpServletRequest, res :  HttpServletResponse, chain : FilterChain ){
 		try {
 			if (existeJWTToken(req)) {
-				var claims = validateToken(req);
-				var auth = UsernamePasswordAuthenticationToken(claims.issuer, null,ArrayList<GrantedAuthority>());
-				SecurityContextHolder.getContext().setAuthentication(auth);
-			
+				validateToken(req)?.let{
+					var auth = UsernamePasswordAuthenticationToken(it.issuer, null,ArrayList<GrantedAuthority>());
+					SecurityContextHolder.getContext().setAuthentication(auth);
+				}?:run{
+					SecurityContextHolder.clearContext();	
+				}
 			} else {
-					SecurityContextHolder.clearContext();
-					
+				SecurityContextHolder.clearContext();	
 			}
 			chain.doFilter(req, res);
 		} catch (ex: Exception) {
@@ -44,7 +45,7 @@ class JWTAuthorizationFilter : OncePerRequestFilter() {
 		}
 	}	
 
-	fun validateToken(req: HttpServletRequest): Claims {
+	fun validateToken(req: HttpServletRequest): Claims? {
 		var jwtToken = req.getHeader(HEADER).replace(PREFIX, "");
 		return Jwts.parser().setSigningKey(SECRET).parseClaimsJws(jwtToken).getBody();
 	}
