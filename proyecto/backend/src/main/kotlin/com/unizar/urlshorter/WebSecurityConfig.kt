@@ -19,12 +19,16 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 	lateinit var jsonAuthorizationFilter: JWTAuthorizationFilter
 
 	override fun configure(http: HttpSecurity) {
-		http.csrf().disable()
-			.addFilterAfter(jsonAuthorizationFilter, UsernamePasswordAuthenticationFilter::class.java)
-			.authorizeRequests()
-			.antMatchers(HttpMethod.POST, "/auth/*").permitAll()
-            .antMatchers(HttpMethod.POST, "/api/shorter").permitAll()
-            .antMatchers(HttpMethod.POST, "/api/qr").permitAll()
-			.anyRequest().authenticated();
+		with(http) {
+			csrf().disable()
+
+			addFilterAfter(jsonAuthorizationFilter, UsernamePasswordAuthenticationFilter::class.java)
+			
+			authorizeRequests()
+			antMatchers(HttpMethod.POST, "/auth/*").permitAll()
+            antMatchers(HttpMethod.POST, "/api/shorter").permitAll()
+            antMatchers(HttpMethod.POST, "/api/qr").permitAll()
+			anyRequest().authenticated()
+		}
 	}
 }

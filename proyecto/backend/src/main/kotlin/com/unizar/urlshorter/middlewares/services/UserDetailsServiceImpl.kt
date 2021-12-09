@@ -12,6 +12,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.unizar.urlshorter.models.User
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+fun User.toUserDetails() : UserDetails = object : UserDetails {
+	
+}
+
+
 class UserDetailsImpl : UserDetails() {
 	val serialVersionUID: long = 1L;
 

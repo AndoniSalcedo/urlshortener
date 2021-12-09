@@ -74,6 +74,7 @@ class UrlController(
         }
     }
 
+    // Async
     fun checkUrl(url: Url) {
         try {
             val client = HttpClient.newBuilder().build();
@@ -93,24 +94,20 @@ class UrlController(
     @PostMapping("/shorter")
     fun shorter(@RequestBody body: ShortIn): CompletableFuture<ResponseEntity<ShortOut>> {
 
-        var urlExist = urlRepository.findOneByUrl(body.url)
-
-        urlExist?.let{
-            var res = ShortOut(
-                url = urlExist.shorter
-            )
-            return CompletableFuture.completedFuture(ResponseEntity<ShortOut>(res, HttpHeaders(), HttpStatus. CREATED))
+        val result = urlRepository.findOneByUrl(body.url)?.let{
+            it.shorter
         } ?: run{
             //Create url
             var url = Url(body.url)
             //Check if url us correct
-            checkUrl(url)
+            checkUrl(url) // a encolar
             //Save url
-            var res = ShortOut(
-                url = url.shorter
-            )
-            return CompletableFuture.completedFuture(ResponseEntity<ShortOut>(res, HttpHeaders(), HttpStatus. CREATED))
+            url.shorter
         }
+        val shortOut = ShortOut(
+            url = result
+        )
+       return CompletableFuture.completedFuture(ResponseEntity<ShortOut>(shortOut, HttpHeaders(), HttpStatus. CREATED))
     }
 
     
