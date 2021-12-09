@@ -25,10 +25,10 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 			addFilterAfter(jsonAuthorizationFilter, UsernamePasswordAuthenticationFilter::class.java)
 			
 			authorizeRequests()
-			antMatchers(HttpMethod.POST, "/auth/*").permitAll()
-            antMatchers(HttpMethod.POST, "/api/shorter").permitAll()
-            antMatchers(HttpMethod.POST, "/api/qr").permitAll()
-			anyRequest().authenticated()
+			.antMatchers(HttpMethod.POST, "/auth/*").permitAll()
+            .antMatchers(HttpMethod.POST, "/api/shorter").permitAll()
+            .antMatchers(HttpMethod.POST, "/api/qr").permitAll()
+			.anyRequest().authenticated()
 		}
 	}
 }
