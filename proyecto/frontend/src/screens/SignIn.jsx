@@ -27,12 +27,12 @@ const SignIn = () => {
         return(
             <section className="content">
                 <form onSubmit={()=>{}}>
-                    <h2 className="title">Log In</h2>
+                    <h2 className="title">Iniciar Sesión</h2>
                     <section className="input-section email">
                         <section/> 
                         <section>
                             <input type="text" 
-                                placeholder="Email"
+                                placeholder="E-mail"
                                 className="input" 
                                 required
                                 value={Email}
@@ -55,8 +55,8 @@ const SignIn = () => {
             	        </section>
                     </section>
                     <section className="line"></section>
-            	    <button type="button" className="btn" onClick={saveUser}>Log In</button>
-                    <button type="button" className="btn" onClick={()=>{history.push('/signup')}}>SignUp</button>
+            	    <button type="button" className="btn" onClick={saveUser}>Iniciar Sesión</button>
+                    <button type="button" className="btn" onClick={()=>{history.push('/signup')}}>Registrarse</button>
                 </form>
             </section>
         );

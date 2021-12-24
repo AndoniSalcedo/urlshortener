@@ -64,7 +64,7 @@ const UrlPage = () => {
                     <section>
                         <div>
                             <input type="text"
-                                placeholder="url to short"
+                                placeholder="Url a recortar"
                                 className="input"
                                 required
                                 value={urlToShort}
@@ -88,7 +88,7 @@ const UrlPage = () => {
                         <p />
                     }
                     <button type="button" className="btn" onClick={shortUrl}>Recortar</button>
-                    <button type="button" className="btn" onClick={() => { history.push('/signin') }}>SignIn</button>
+                    <button type="button" className="btn" onClick={() => { history.push('/signin') }}>Iniciar Sesión</button>
                     <button type="button" className="btn" onClick={() => { history.push('/signup') }}>Registrarse</button>
                     <button type="button" className="btn" onClick={getQr}>Mostrar QR</button>
                     {qr !== "" ?

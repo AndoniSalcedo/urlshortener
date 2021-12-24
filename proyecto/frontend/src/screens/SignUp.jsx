@@ -30,7 +30,7 @@ const SignUp = () => {
                         <section/> 
                         <section>
                             <input type="text" 
-                                placeholder="Name"
+                                placeholder="Nombre"
                                 className="input" 
                                 required
                                 value={Name}
@@ -43,7 +43,7 @@ const SignUp = () => {
                         <section/> 
                         <section>
                             <input type="text" 
-                                placeholder="Email"
+                                placeholder="E-mail"
                                 className="input" 
                                 required
                                 value={Email}
@@ -66,8 +66,8 @@ const SignUp = () => {
             	        </section>
                     </section>
                     <section className="line"></section>
-            	    <button type="button" className="btn" onClick={registerUser}>Register</button>
-                    <button type="button" className="btn"  onClick={()=>{history.push('/signin')}}>SignIn</button>
+            	    <button type="button" className="btn" onClick={registerUser}>Registrarse</button>
+                    <button type="button" className="btn"  onClick={()=>{history.push('/signin')}}>Iniciar Sesión</button>
                 </form>
             </section>
         );

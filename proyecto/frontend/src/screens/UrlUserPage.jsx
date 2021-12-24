@@ -13,12 +13,20 @@ const UrlUserPage = () => {
 
     const token = history.location.state?.token
 
+    const [checked, setChecked] = React.useState(false);
+
+    const handleChange = () => {
+        setChecked(!checked);
+        console.log(checked)
+    };
+
     const shortUrl = async () => {
         try{
-            console.log(token)
+            
             const res = await axios.post("http://localhost:8080/api/user/shorter",
-                {url: urlToShort},
-                {headers: {"accessToken" : token}})
+                {url: urlToShort, qr: checked},
+                {headers: {"Authorization" : token}})
+
             setUrlShorted("http://localhost:3000/s/"+res.data.url)
 
         }catch(err){
@@ -43,17 +51,25 @@ const UrlUserPage = () => {
     return (
         <section className="content">
             <form onSubmit={() => { }}>
-                <h2 className="title">Url to short</h2>
+                <h2 className="title">Urlshorter</h2>
                 <section className="input-section email">
                     <section />
                     <section>
                         <input type="text"
-                            placeholder="url to short"
+                            placeholder="url a recortar"
                             className="input"
                             required
                             value={urlToShort}
                             onChange={(v) => { seturlToShort(v.target.value) }}
                         />
+                        <label>
+                            Generar además un QR
+                            <input
+                                type="checkbox"
+                                checked={checked}
+                                onChange={handleChange}>
+                            </input>
+                        </label>  
                     </section>
                     {urlShorted !== "" ?
                         <>
@@ -63,8 +79,8 @@ const UrlUserPage = () => {
                         <p/>
                     }
                     <button type="button" className="btn" onClick={shortUrl}>Recortar</button>
-                    <button type="button" className="btn" onClick={getQr}>Generar QR</button>
-                    <button type="button" className="logout" onClick={() => { history.push('/signout') }}>Log-out</button>
+                    <button type="button" className="btn" onClick={getQr}>Mostrar QR</button>
+                    <button type="button" className="logout" onClick={() => { history.push('/signout') }}>Cerrar sesión</button>
                     {qr !== "" ?
                         <>
                             <p>Código QR: </p>

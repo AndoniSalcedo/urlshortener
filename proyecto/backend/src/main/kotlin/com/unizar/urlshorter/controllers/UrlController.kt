@@ -108,8 +108,9 @@ class UrlController(
     @PostMapping("/user/shorter")
     fun userShorter(@RequestBody body: ShortIn): CompletableFuture<ResponseEntity<ShortOut>>  {
 
-
+        println("Principio de url shorteer")
     
+        // TODO: This fails
         var id = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()
 
         var user = userRepository.findOneById(ObjectId(id))
@@ -120,6 +121,8 @@ class UrlController(
         
         var urlExist = urlRepository.findOneByUrl(body.url)
         
+        println("hemos llegado hasta justo antes dde let")
+
         urlExist?.let{
             //URL currently exist
             //Add Url to User urls
@@ -134,6 +137,9 @@ class UrlController(
             //URL dont exist
             //Create url
             var url = Url(body.url)
+            if (body.qr){
+                url.addQR()
+            }
             //Check if url us correct
             checkUrl(url)
             //Add Url to User urls
