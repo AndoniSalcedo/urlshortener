@@ -101,8 +101,6 @@ class UrlController(
     @PostMapping("/user/shorter")
     fun userShorter(@RequestBody body: ShortIn): CompletableFuture<ResponseEntity<ShortOut>>  {
 
-
-    
         var id = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()
 
         var user = userRepository.findOneById(ObjectId(id))
@@ -155,7 +153,6 @@ class UrlController(
     @Async("taskExecutor")
     @GetMapping("/user/urls")
     fun getUrls() : CompletableFuture<ResponseEntity<UrlsOut>> {
-        //TODO: to solve url dont return url.click's update
 
         var id = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()
         //Get user

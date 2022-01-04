@@ -42,7 +42,6 @@ class UserController( val userRepository: UserRepository){
     @PostMapping("/register")
     fun register(@RequestBody body: RegisterIn): CompletableFuture<ResponseEntity<Void>>  {
 
-        //TODO: valid data
         var userExist = userRepository.findOneByEmail(body.email)
         //Check if User email already exist
         if(userExist != null){

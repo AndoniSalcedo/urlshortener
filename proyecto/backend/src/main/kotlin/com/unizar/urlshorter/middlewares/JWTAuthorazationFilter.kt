@@ -28,21 +28,18 @@ class JWTAuthorizationFilter : OncePerRequestFilter() {
 	val SECRET : String = "secret";
 
 	override fun doFilterInternal(req: HttpServletRequest, res :  HttpServletResponse, chain : FilterChain ){
-		try {
-			if (existeJWTToken(req)) {
-				validateToken(req)?.let{
-					var auth = UsernamePasswordAuthenticationToken(it.issuer, null,ArrayList<GrantedAuthority>());
-					SecurityContextHolder.getContext().setAuthentication(auth);
-				}?:run{
-					SecurityContextHolder.clearContext();	
-				}
-			} else {
+		if (existeJWTToken(req)) {
+			validateToken(req)?.let{
+				
+				var auth = UsernamePasswordAuthenticationToken(it.issuer, null,ArrayList<GrantedAuthority>());
+				SecurityContextHolder.getContext().setAuthentication(auth);
+			}?:run{
 				SecurityContextHolder.clearContext();	
 			}
-			chain.doFilter(req, res);
-		} catch (ex: Exception) {
-	
+		} else {
+			SecurityContextHolder.clearContext();	
 		}
+		chain.doFilter(req, res);
 	}	
 
 	fun validateToken(req: HttpServletRequest): Claims? {
