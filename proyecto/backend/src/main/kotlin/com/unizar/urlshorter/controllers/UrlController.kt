@@ -62,18 +62,16 @@ class UrlController(
 
     // Async
     fun checkUrl(url: Url) {
-        try {
-            val client = HttpClient.newBuilder().build();
-            val req = HttpRequest.newBuilder()
-                .uri(URI.create(url.url))
-                .build();
-            client.send(req, HttpResponse.BodyHandlers.ofString())
-            //If res.status != 2** throw a exception and dont save the url salid
-            url.validateUrl()
-            urlRepository.save(url)   
-        } catch(ex: Exception) {
+ 
+        val client = HttpClient.newBuilder().build();
+        val req = HttpRequest.newBuilder()
+            .uri(URI.create(url.url))
+            .build();
+        client.send(req, HttpResponse.BodyHandlers.ofString())
+        //If res.status != 2** throw a exception and dont save the url salid
+        url.validateUrl()
+        urlRepository.save(url)   
 
-        }
     }
     
     @Async("taskExecutor")
@@ -96,8 +94,46 @@ class UrlController(
        return CompletableFuture.completedFuture(ResponseEntity<ShortOut>(shortOut, HttpHeaders(), HttpStatus. CREATED))
     }
 
+    @PostMapping("/user/shorter")
+    fun userShorter(@RequestBody body: ShortIn): ResponseEntity<ShortOut>  {
+        var id = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()
 
-    @Async("taskExecutor")
+        var user = userRepository.findOneById(ObjectId(id))
+        //Check if user exist
+        if(user == null){
+            return ResponseEntity<ShortOut>(null, HttpHeaders(), HttpStatus.NOT_FOUND)
+        }
+        
+        val result = urlRepository.findOneByUrl(body.url)?.let{
+            //URL currently exist
+            //Add Url to User urls
+            user.addUrl(it)
+            //Save user
+            userRepository.save(user)
+            it.shorter
+           
+        }?: run{
+            //URL dont exist
+            //Create url
+            var url = Url(body.url)
+            //Check if url us correct
+            checkUrl(url)
+            //Add Url to User urls
+            user.addUrl(url)
+            //Save user
+            userRepository.save(user)
+            url.shorter
+ 
+        }
+
+        val shortOut = ShortOut(
+            url = result
+        ) 
+        return ResponseEntity<ShortOut>(shortOut, HttpHeaders(), HttpStatus.CREATED)
+    }
+
+
+   /*  @Async("taskExecutor")
     @PostMapping("/user/shorter")
     fun userShorter(@RequestBody body: ShortIn): CompletableFuture<ResponseEntity<ShortOut>>  {
 
@@ -136,7 +172,7 @@ class UrlController(
             )
             return CompletableFuture.completedFuture(ResponseEntity<ShortOut>(res, HttpHeaders(), HttpStatus.CREATED))
         }
-    }
+    } */
 
     @Async("taskExecutor")
     @PostMapping("/qr")
