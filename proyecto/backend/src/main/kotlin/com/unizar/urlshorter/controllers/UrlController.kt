@@ -33,7 +33,9 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 data class ShortIn(
-    var url: String 
+    var url: String,
+    // Is needed to create a QR
+    var qr: Boolean
 )
 
 data class ShortOut(
@@ -83,10 +85,15 @@ class UrlController(
         } ?: run{
             //Create url
             var url = Url(body.url)
+            // Check if it's need to create a QR
+            if (body.qr){
+                url.addQR()
+            }
             //Check if url us correct
             checkUrl(url) // a encolar
             //Save url
             url.shorter
+
         }
         val shortOut = ShortOut(
             url = result
@@ -178,7 +185,10 @@ class UrlController(
     @PostMapping("/qr")
     fun qr(@RequestBody body: QrIn): CompletableFuture<ResponseEntity<QrOut>>  {
         //Find url by Id
+
+        println("There is QR for ->" + body.url)
         var url = urlRepository.findOneByUrl(body.url)
+        println("post urlRepository...")
 
         var res = QrOut(
             qr = url?.qr

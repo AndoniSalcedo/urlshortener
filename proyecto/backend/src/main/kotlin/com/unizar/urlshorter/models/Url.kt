@@ -24,6 +24,10 @@ class Url {
     constructor(url: String){
         this.url = url
         this.shorter = Hashing.murmur3_32().hashString(url, StandardCharsets.UTF_8).toString()
+    }
+
+    fun addQR(){
+        println("Creating QR...")
         val writer = QRCodeWriter()
         // Encodes the shorted url in a BitMatrix, using 'QR_CODE' format.
         val size = 256 // qr size in pixels
@@ -34,10 +38,11 @@ class Url {
         MatrixToImageWriter.writeToStream(matQr, "PNG", bos)
         val qrString = Base64.getEncoder().encodeToString(bos.toByteArray())
         if (qrString != null){
+            println("Created QR OK.")
             this.qr = qrString
         }
+        println("End of constructor")
         // In the front, this could be displayed as a base64 coded png , like "<img src={`data:image/png;base64,${image}`} />"
-
     }
 
     fun validateUrl(){
