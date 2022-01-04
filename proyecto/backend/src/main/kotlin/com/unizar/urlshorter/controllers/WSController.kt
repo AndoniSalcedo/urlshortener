@@ -51,8 +51,6 @@ class WSController(var urlRepository: UrlRepository) : TextWebSocketHandler() {
                 return
             }
 
-            url.addClick()
-
             var longURL = url.url
 
             println("Incoming Request: '" + message.payload + ". URL found: " + url.url + ". Waiting 10 seconds...");

@@ -34,7 +34,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 data class ShortIn(
     var url: String,
-    // Is needed to create a QR
     var qr: Boolean
 )
 
@@ -185,10 +184,7 @@ class UrlController(
     @PostMapping("/qr")
     fun qr(@RequestBody body: QrIn): CompletableFuture<ResponseEntity<QrOut>>  {
         //Find url by Id
-
-        println("There is QR for ->" + body.url)
         var url = urlRepository.findOneByUrl(body.url)
-        println("post urlRepository...")
 
         var res = QrOut(
             qr = url?.qr
@@ -230,13 +226,6 @@ class UrlController(
         if(!url.isValid){
             return CompletableFuture.completedFuture(ResponseEntity<ShortOut>(null, HttpHeaders(), HttpStatus.UNAUTHORIZED))
         }
-
-        fun addClick() {
-            url.addClick()
-            urlRepository.save(url)
-        }
-
-        addClick()
 
         var res = ShortOut(
             url = url.url

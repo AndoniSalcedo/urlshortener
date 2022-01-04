@@ -18,7 +18,6 @@ class Url {
     var url = ""
     var shorter = ""
     var isValid = false
-    var clicks  = 0
     var qr  = ""
 
     constructor(url: String){
@@ -49,7 +48,4 @@ class Url {
         this.isValid = true
     }
 
-    fun addClick(){
-        clicks += 1
-    }
 }
