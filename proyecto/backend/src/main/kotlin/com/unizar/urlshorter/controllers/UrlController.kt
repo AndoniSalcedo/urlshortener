@@ -77,7 +77,7 @@ class UrlController(
     }
 
     @PostMapping("/shorter")
-    fun shorter(@RequestBody body: ShortIn): CompletableFuture<ResponseEntity<ShortOut>> {
+    fun shorter(@RequestBody body: ShortIn): ResponseEntity<ShortOut> {
 
         val result = urlRepository.findOneByUrl(body.url)?.let{
             it.shorter
@@ -97,7 +97,7 @@ class UrlController(
         val shortOut = ShortOut(
             url = result
         )
-       return CompletableFuture.completedFuture(ResponseEntity<ShortOut>(shortOut, HttpHeaders(), HttpStatus. CREATED))
+       return ResponseEntity<ShortOut>(shortOut, HttpHeaders(), HttpStatus. CREATED)
     }
 
     @PostMapping("/user/shorter")
@@ -139,53 +139,31 @@ class UrlController(
     }
 
     @PostMapping("/qr")
-    fun qr(@RequestBody body: QrIn): CompletableFuture<ResponseEntity<QrOut>>  {
+    fun qr(@RequestBody body: QrIn): ResponseEntity<QrOut>  {
         //Find url by Id
         var url = urlRepository.findOneByUrl(body.url)
 
         var res = QrOut(
             qr = url?.qr
         )
-        return CompletableFuture.completedFuture(ResponseEntity<QrOut>(res, HttpHeaders(), HttpStatus.CREATED))
+        return ResponseEntity<QrOut>(res, HttpHeaders(), HttpStatus.CREATED)
     }
 
     @GetMapping("/user/urls")
-    fun getUrls() : CompletableFuture<ResponseEntity<UrlsOut>> {
+    fun getUrls() : ResponseEntity<UrlsOut> {
 
         var id = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()
         //Get user
         var user = userRepository.findOneById(ObjectId(id))
         //Check if user exist
         if(user == null){
-            return CompletableFuture.completedFuture(ResponseEntity<UrlsOut>(null ,HttpHeaders(), HttpStatus.NOT_FOUND))
+            return ResponseEntity<UrlsOut>(null ,HttpHeaders(), HttpStatus.NOT_FOUND)
         }
         //Create response
         var res = UrlsOut(
             urls = user.urls
         )
 
-        return CompletableFuture.completedFuture(ResponseEntity<UrlsOut>(res, HttpHeaders(), HttpStatus.OK))
-    }
-    
-    // Depecrated func
-    @Deprecated(message = "Past Test Functionality")
-    @GetMapping("/tiny-{shorter:.*}")
-    fun redirect(@PathVariable shorter: String) : CompletableFuture<ResponseEntity<ShortOut>> {
-        
-        //Find if the url exist
-        var url = urlRepository.findOneByShorter(shorter)
-        if(url == null){
-            return CompletableFuture.completedFuture(ResponseEntity<ShortOut>(null, HttpHeaders(), HttpStatus.UNAUTHORIZED))
-        }
-        // Find if Url is valid
-        if(!url.isValid){
-            return CompletableFuture.completedFuture(ResponseEntity<ShortOut>(null, HttpHeaders(), HttpStatus.UNAUTHORIZED))
-        }
-
-        var res = ShortOut(
-            url = url.url
-        )
-        
-        return CompletableFuture.completedFuture(ResponseEntity<ShortOut>(res, HttpHeaders(), HttpStatus.CREATED))
+        return ResponseEntity<UrlsOut>(res, HttpHeaders(), HttpStatus.OK)
     }
 }

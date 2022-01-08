@@ -17,11 +17,10 @@ repositories {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
-	implementation("org.springframework.boot:spring-boot-starter-web")
+
     implementation("org.springframework.boot:spring-boot-starter-websocket")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("io.jsonwebtoken:jjwt:0.2")
 
     implementation ("jakarta.xml.bind:jakarta.xml.bind-api:2.3.2")
@@ -31,6 +30,12 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	implementation ("com.google.zxing:core:3.4.0")
     implementation("com.google.zxing:javase:3.3.2")
+
+    implementation("org.keycloak:keycloak-spring-boot-starter:16.1.0")
+
+    implementation("org.springframework.boot:spring-boot-starter-web")
+
+    implementation("org.springframework.boot:spring-boot-starter-security")
 }
 
 

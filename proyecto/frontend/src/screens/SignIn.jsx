@@ -11,13 +11,22 @@ const SignIn = () => {
     const { signIn } = useContext(AuthContext);
     
     const saveUser = async () => {
+
+        const params = new URLSearchParams()
+        params.append('grant_type','password')
+        params.append('client_id','public')
+        params.append('username',Email)
+        params.append('password',Password)
+
+        const config = {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            }
+          }
+
         try{
-            const res = await axios.post("http://localhost:8080/auth/login",{
-                email: Email,
-                password: Password
-            })
-            const userToken = res.data.accessToken
-            console.log(res.data)
+            const res = await axios.post("http://localhost:8000/auth/realms/SpringBoot/protocol/openid-connect/token",params, config)
+            const userToken = res.data.access_token
             signIn(userToken)
             history.push('/urluserpage', {token: userToken})
         }catch(err){
