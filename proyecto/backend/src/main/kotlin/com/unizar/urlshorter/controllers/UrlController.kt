@@ -62,6 +62,7 @@ class UrlController(
     var userRepository: UserRepository){
 
     // Async
+    @Async("taskExecutor")
     fun checkUrl(url: Url) {
  
         val client = HttpClient.newBuilder().build();
@@ -74,8 +75,7 @@ class UrlController(
         urlRepository.save(url)   
 
     }
-    
-    @Async("taskExecutor")
+
     @PostMapping("/shorter")
     fun shorter(@RequestBody body: ShortIn): CompletableFuture<ResponseEntity<ShortOut>> {
 
@@ -138,49 +138,6 @@ class UrlController(
         return ResponseEntity<ShortOut>(shortOut, HttpHeaders(), HttpStatus.CREATED)
     }
 
-
-   /*  @Async("taskExecutor")
-    @PostMapping("/user/shorter")
-    fun userShorter(@RequestBody body: ShortIn): CompletableFuture<ResponseEntity<ShortOut>>  {
-
-        var id = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()
-
-        var user = userRepository.findOneById(ObjectId(id))
-        //Check if user exist
-        if(user == null){
-            return CompletableFuture.completedFuture(ResponseEntity<ShortOut>(null, HttpHeaders(), HttpStatus.NOT_FOUND))
-        }
-        
-        var urlExist = urlRepository.findOneByUrl(body.url)
-        
-        urlExist?.let{
-            //URL currently exist
-            //Add Url to User urls
-            user.addUrl(urlExist)
-            //Save user
-            userRepository.save(user)
-            var res = ShortOut(
-                url = urlExist.shorter
-            )
-            return CompletableFuture.completedFuture(ResponseEntity<ShortOut>(res, HttpHeaders(), HttpStatus.CREATED))
-        } ?: run{
-            //URL dont exist
-            //Create url
-            var url = Url(body.url)
-            //Check if url us correct
-            checkUrl(url)
-            //Add Url to User urls
-            user.addUrl(url)
-            //Save user
-            userRepository.save(user)
-            var res = ShortOut(
-                url = url.shorter
-            )
-            return CompletableFuture.completedFuture(ResponseEntity<ShortOut>(res, HttpHeaders(), HttpStatus.CREATED))
-        }
-    } */
-
-    @Async("taskExecutor")
     @PostMapping("/qr")
     fun qr(@RequestBody body: QrIn): CompletableFuture<ResponseEntity<QrOut>>  {
         //Find url by Id
@@ -192,7 +149,6 @@ class UrlController(
         return CompletableFuture.completedFuture(ResponseEntity<QrOut>(res, HttpHeaders(), HttpStatus.CREATED))
     }
 
-    @Async("taskExecutor")
     @GetMapping("/user/urls")
     fun getUrls() : CompletableFuture<ResponseEntity<UrlsOut>> {
 
@@ -212,7 +168,6 @@ class UrlController(
     }
     
     // Depecrated func
-    @Async("taskExecutor")
     @Deprecated(message = "Past Test Functionality")
     @GetMapping("/tiny-{shorter:.*}")
     fun redirect(@PathVariable shorter: String) : CompletableFuture<ResponseEntity<ShortOut>> {

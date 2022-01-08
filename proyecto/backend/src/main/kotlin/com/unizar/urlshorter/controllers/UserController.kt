@@ -38,7 +38,6 @@ data class LoginOut(
 @RequestMapping("/auth")
 class UserController( val userRepository: UserRepository){
 
-	@Async("taskExecutor")
     @PostMapping("/register")
     fun register(@RequestBody body: RegisterIn): CompletableFuture<ResponseEntity<Void>>  {
 
@@ -54,8 +53,7 @@ class UserController( val userRepository: UserRepository){
 
         return CompletableFuture.completedFuture(ResponseEntity<Void>(HttpHeaders(), HttpStatus.CREATED))
     }
-    
-	@Async("taskExecutor")
+
     @PostMapping("/login")
     fun login(@RequestBody body: LoginIn) : CompletableFuture<ResponseEntity<LoginOut>> {
         
