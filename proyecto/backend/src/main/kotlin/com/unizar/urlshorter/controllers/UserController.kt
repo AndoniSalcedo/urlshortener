@@ -40,7 +40,7 @@ class UserController( val userRepository: UserRepository){
 
     @PostMapping("/register")
     fun register(@RequestBody body: RegisterIn): ResponseEntity<Void>  {
-
+        
         var userExist = userRepository.findOneByEmail(body.email)
         //Check if User email already exist
         if(userExist != null){

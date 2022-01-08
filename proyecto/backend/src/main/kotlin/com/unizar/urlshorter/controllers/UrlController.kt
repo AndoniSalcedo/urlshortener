@@ -32,6 +32,8 @@ import java.util.concurrent.*
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.beans.factory.annotation.Value
+
 data class ShortIn(
     var url: String,
     var qr: Boolean
@@ -60,6 +62,9 @@ data class UrlsOut(
 class UrlController(
     var urlRepository: UrlRepository,
     var userRepository: UserRepository){
+
+    @Value("\${keycloack.username.email}")
+    lateinit var email: String;
 
     // Async
     @Async("taskExecutor")
@@ -102,10 +107,9 @@ class UrlController(
 
     @PostMapping("/user/shorter")
     fun userShorter(@RequestBody body: ShortIn): ResponseEntity<ShortOut>  {
-        var id = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()
 
-        var user = userRepository.findOneById(ObjectId(id))
-        //Check if user exist
+        var user = userRepository.findOneByEmail(email)
+
         if(user == null){
             return ResponseEntity<ShortOut>(null, HttpHeaders(), HttpStatus.NOT_FOUND)
         }
@@ -152,9 +156,7 @@ class UrlController(
     @GetMapping("/user/urls")
     fun getUrls() : ResponseEntity<UrlsOut> {
 
-        var id = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()
-        //Get user
-        var user = userRepository.findOneById(ObjectId(id))
+        var user = userRepository.findOneByEmail(email)
         //Check if user exist
         if(user == null){
             return ResponseEntity<UrlsOut>(null ,HttpHeaders(), HttpStatus.NOT_FOUND)
