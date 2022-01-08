@@ -29,7 +29,6 @@ import org.springframework.scheduling.concurrent.*
 import org.springframework.scheduling.annotation.*
 import org.springframework.context.annotation.*
 import java.util.concurrent.*
-import org.springframework.core.task.TaskExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 data class ShortIn(
@@ -76,6 +75,7 @@ class UrlController(
 
     }
 
+    @Async("requestExecutor")
     @PostMapping("/shorter")
     fun shorter(@RequestBody body: ShortIn): CompletableFuture<ResponseEntity<ShortOut>> {
 
@@ -100,6 +100,7 @@ class UrlController(
        return CompletableFuture.completedFuture(ResponseEntity<ShortOut>(shortOut, HttpHeaders(), HttpStatus. CREATED))
     }
 
+    //@Async("requestExecutor")
     @PostMapping("/user/shorter")
     fun userShorter(@RequestBody body: ShortIn): ResponseEntity<ShortOut>  {
         var id = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()
@@ -138,6 +139,7 @@ class UrlController(
         return ResponseEntity<ShortOut>(shortOut, HttpHeaders(), HttpStatus.CREATED)
     }
 
+    @Async("requestExecutor")
     @PostMapping("/qr")
     fun qr(@RequestBody body: QrIn): CompletableFuture<ResponseEntity<QrOut>>  {
         //Find url by Id
@@ -149,6 +151,7 @@ class UrlController(
         return CompletableFuture.completedFuture(ResponseEntity<QrOut>(res, HttpHeaders(), HttpStatus.CREATED))
     }
 
+    //@Async("requestExecutor")
     @GetMapping("/user/urls")
     fun getUrls() : CompletableFuture<ResponseEntity<UrlsOut>> {
 
@@ -168,6 +171,7 @@ class UrlController(
     }
     
     // Depecrated func
+    @Async("requestExecutor")
     @Deprecated(message = "Past Test Functionality")
     @GetMapping("/tiny-{shorter:.*}")
     fun redirect(@PathVariable shorter: String) : CompletableFuture<ResponseEntity<ShortOut>> {

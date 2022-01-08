@@ -301,3 +301,9 @@ TSWLatexianTemp*
 */yarn-error.log*
 
 */.gradle
+.idea/codeStyles/codeStyleConfig.xml
+.idea/codeStyles/Project.xml
+.idea/modules.xml
+.idea/urlshortener.iml
+.idea/vcs.xml
+.idea/workspace.xml
