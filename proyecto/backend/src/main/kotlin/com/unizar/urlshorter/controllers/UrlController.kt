@@ -123,6 +123,10 @@ class UrlController(
             //URL dont exist
             //Create url
             var url = Url(body.url)
+            // Check if it's need to create a QR
+            if (body.qr){
+                url.addQR()
+            }
             //Check if url us correct
             checkUrl(url)
             //Add Url to User urls

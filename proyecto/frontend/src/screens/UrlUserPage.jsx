@@ -11,13 +11,22 @@ const UrlUserPage = () => {
 
     const [qr, setQr] = useState("")
 
+    const [checked, setChecked] = React.useState(false);
+
+    const handleChange = () => {
+        setChecked(!checked);
+        console.log(checked)
+    };
+
     const token = history.location.state?.token
 
     const shortUrl = async () => {
         try{
-            console.log(token)
             const res = await axios.post("http://localhost:8080/api/user/shorter",
-                {url: urlToShort},
+                {
+                    url: urlToShort,
+                    qr: checked,
+                },
                 {headers: {"Authorization" : token}})
             setUrlShorted("http://localhost:3000/s/"+res.data.url)
 
@@ -54,6 +63,14 @@ const UrlUserPage = () => {
                             value={urlToShort}
                             onChange={(v) => { seturlToShort(v.target.value) }}
                         />
+                        <label>
+                            Generar además un QR
+                            <input
+                                type="checkbox"
+                                checked={checked}
+                                onChange={handleChange}>
+                            </input>
+                        </label> 
                     </section>
                     {urlShorted !== "" ?
                         <>
@@ -63,7 +80,7 @@ const UrlUserPage = () => {
                         <p/>
                     }
                     <button type="button" className="btn" onClick={shortUrl}>Recortar</button>
-                    <button type="button" className="btn" onClick={getQr}>Generar QR</button>
+                    <button type="button" className="btn" onClick={getQr}>Mostrar QR</button>
                     <button type="button" className="logout" onClick={() => { history.push('/signout') }}>Log-out</button>
                     {qr !== "" ?
                         <>
