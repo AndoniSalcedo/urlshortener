@@ -49,10 +49,8 @@ data class QrOut(
 )
 
 data class UrlsOut(
-    var urls: ArrayList<Url>?
+    var urls: ArrayList<String>?
 )
-
-
 
 @RestController
 @RequestMapping("/api")
@@ -156,7 +154,7 @@ class UrlController(
     }
 
     //@Async("requestExecutor")
-    @GetMapping("/user/urls")
+    @PostMapping("/user/urls")
     fun getUrls() : CompletableFuture<ResponseEntity<UrlsOut>> {
 
         var id = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString()
@@ -166,9 +164,15 @@ class UrlController(
         if(user == null){
             return CompletableFuture.completedFuture(ResponseEntity<UrlsOut>(null ,HttpHeaders(), HttpStatus.NOT_FOUND))
         }
+
+        // Get all urls of the user
+        val listUrls = arrayListOf<String>()
+        for (url in user.urls){
+            listUrls.add(url.url.toString())
+        }
         //Create response
         var res = UrlsOut(
-            urls = user.urls
+            urls = listUrls
         )
 
         return CompletableFuture.completedFuture(ResponseEntity<UrlsOut>(res, HttpHeaders(), HttpStatus.OK))

@@ -48,6 +48,16 @@ const UrlUserPage = () => {
             }
         }
     }
+    const seeUrls = async () => {
+        try{
+            const res = await axios.post("http://localhost:8080/api/user/urls",
+                {},
+                {headers: {"Authorization" : token}})
+            console.log(res.data.urls)
+        }catch(err){
+            console.log(err)
+        }
+    }
 
     return (
         <section className="content">
@@ -81,6 +91,7 @@ const UrlUserPage = () => {
                     }
                     <button type="button" className="btn" onClick={shortUrl}>Recortar</button>
                     <button type="button" className="btn" onClick={getQr}>Mostrar QR</button>
+                    <button type="button" className="btn" onClick={seeUrls}>Ver mis urls</button>
                     <button type="button" className="logout" onClick={() => { history.push('/signout') }}>Log-out</button>
                     {qr !== "" ?
                         <>
