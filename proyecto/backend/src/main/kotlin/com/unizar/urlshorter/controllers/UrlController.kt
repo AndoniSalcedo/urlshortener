@@ -169,6 +169,7 @@ class UrlController(
         val listUrls = arrayListOf<String>()
         for (url in user.urls){
             listUrls.add(url.url.toString())
+            listUrls.add(url.shorter.toString())
         }
         //Create response
         var res = UrlsOut(
