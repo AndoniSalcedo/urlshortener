@@ -53,15 +53,30 @@ const WaitPage = (props) => {
     }, []); //Warning here, ignore
 
     return (
-        <section className="wait-page">
-            Waiting 10 seconds to give you the link...
-            
-            <p>[DEBUG] Short URL ID = {shortURL}</p>
-            { longURL !== "" //Show redirect button when we've received the URL from the server
-                ? <button type="button" className="btn" onClick={redirectFromURL}>Ir a '{longURL}'</button>
-                : null
-            }
-        </section>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gridGap: 20 }}>
+            <div>
+                {
+                    ad1 !== "" ? <a href="https://en.wikipedia.org/wiki/Online_advertising"><img src={ad1} alt="Advertisement"></img></a> : null
+                }
+            </div>
+            <div>
+                <section className="wait-page">
+                Waiting 10 seconds to give you the link...
+                
+                <p>[DEBUG] Short URL ID = {shortURL}</p>
+                { longURL !== "" //Show redirect button when we've received the URL from the server
+                    ? <button type="button" className="btn" onClick={redirectFromURL}>Ir a '{longURL}'</button>
+                    : null
+                }
+                </section>
+            </div>
+            <div>
+                {
+                    ad2 !== "" ? <a href="https://en.wikipedia.org/wiki/Online_advertising"><img src={ad2} alt="Advertisement"></img></a> : null
+                }
+            </div>
+        </div>
+        
     );
 }
 
