@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
+import axios from 'axios'
+
 const WaitPage = (props) => {
     const params = props.match.params
 
@@ -9,6 +11,9 @@ const WaitPage = (props) => {
     const shortURL = params.id
     const [longURL,setlongURL] = useState("")
 
+    const [ad1, setAd1] = useState("")
+    const [ad2, setAd2] = useState("")
+
     const redirectFromURL = async() => {
         try {
             window.location.replace(longURL)
@@ -17,10 +22,24 @@ const WaitPage = (props) => {
         }
     }
 
+    const loadAds = async() => {
+        try {
+            const res = await axios.post("http://localhost:8080/ad/obtain",{})
+            setAd1(res.data.ad1)
+            setAd2(res.data.ad2)
+            console.log("ad1: \"" + res.data.ad1 + "\"")
+            console.log("ad2: \"" + res.data.ad2 + "\"")
+        } catch(err) {
+            console.log(err)
+        }
+    }
+
     //Run on module (Really websocket) load
     useEffect(() => {
         ws.current = new WebSocket(wsURL);
         console.log("UseEffect")
+
+        loadAds()
 
         ws.current.onopen = (event) => {
             console.log("ws.onopen");

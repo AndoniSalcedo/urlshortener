@@ -30,6 +30,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 			.antMatchers(HttpMethod.POST, "/auth/*").permitAll()
             .antMatchers(HttpMethod.POST, "/api/shorter").permitAll()
             .antMatchers(HttpMethod.POST, "/api/qr").permitAll()
+			.antMatchers(HttpMethod.POST, "/ad/obtain").permitAll()
 			.anyRequest().authenticated()
 		}
 	}
