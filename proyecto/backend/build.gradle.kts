@@ -31,6 +31,13 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	implementation ("com.google.zxing:core:3.4.0")
     implementation("com.google.zxing:javase:3.3.2")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-web")
+    testImplementation("org.springframework.boot:spring-boot-starter-jdbc")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
+    testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    testImplementation("org.apache.httpcomponents:httpclient")
 }
 
 
