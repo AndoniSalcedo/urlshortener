@@ -4,6 +4,9 @@ import com.unizar.urlshorter.controllers.ShortOut
 import com.unizar.urlshorter.controllers.ShortIn
 import com.unizar.urlshorter.controllers.QrIn
 import com.unizar.urlshorter.controllers.QrOut
+import com.unizar.urlshorter.controllers.RegisterIn
+import com.unizar.urlshorter.controllers.LoginIn
+import com.unizar.urlshorter.controllers.LoginOut
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.assertj.core.api.Assertions.assertThat
@@ -36,6 +39,10 @@ class IntegrationTest {
         val response = restTemplate.getForEntity("http://localhost:$port/f684a3c4", String::class.java)
         assertThat(response.statusCode).isEqualTo(HttpStatus.FORBIDDEN)
     }
+
+    ////////////////////////////////////////////////////
+    // R2 : La URI no se acortará si no es alcanzable //
+    ////////////////////////////////////////////////////
 
     // Test to create a url shorted with qr
     // The sorther return the hash of the shorted url
@@ -73,6 +80,10 @@ class IntegrationTest {
         assertThat(response_qr.body?.qr).isEqualTo(null)
     }
 
+    //////////////////////////////////////////////////////////////////////
+    // R3 : La URI acortada se puede obtener codificada en un código QR //
+    //////////////////////////////////////////////////////////////////////
+
     // Get come qr created previously from a recheable
     @Test
     fun getQR_ok(){
@@ -105,6 +116,27 @@ class IntegrationTest {
         assertThat(response_qr.body?.qr).isEqualTo("")
     }
 
+    ////////////////////////////
+    // R6 : Login de usuarios //
+    ////////////////////////////
+
+    // Try login
+    @Test
+    fun getQR_notCreated(){
+
+        val headers = HttpHeaders()
+
+        val data = 
+
+        restTemplate.postForEntity(
+            "http://localhost:$port/api/shorter",
+            HttpEntity(data, headers), ShortOut::class.java
+        )
+    }
+
+    ////////////////////////
+    // Auxiliar functions //
+    ////////////////////////
 
     private fun shortUrl(u: String, q: Boolean): ResponseEntity<ShortOut> {
         val headers = HttpHeaders()
