@@ -116,14 +116,14 @@ const UrlUserPage = () => {
 					}
 				</section>
 				{ userUrls !== null ?
-					<>
+					<div>
 						<h2 className="title">Your URLs:</h2>
 						{
 							Object.entries(userUrls).map(([urlfull, urltiny]) => (
-									<p>{urlfull} → http://localhost:3030/a/{urltiny}</p>
+									<p>{urlfull} → http://localhost:3000/s/{urltiny}</p>
 							))
 						}
-					</>
+					</div>
 					: null
 				}
 				
