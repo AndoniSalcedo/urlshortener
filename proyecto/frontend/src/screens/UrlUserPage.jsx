@@ -32,6 +32,9 @@ const UrlUserPage = () => {
 				{headers: {"Authorization" : token}})
 			setUrlShorted("http://localhost:3000/s/"+res.data.url)
 
+
+			//setUserUrls([...userUrls,"http://localhost:3000/s/"+res.data.url])
+
 		}catch(err){
 			console.log(err)
 		}
@@ -119,8 +122,8 @@ const UrlUserPage = () => {
 					<div>
 						<h2 className="title">Your URLs:</h2>
 						{
-							Object.entries(userUrls).map(([urlfull, urltiny]) => (
-									<p>{urlfull} → http://localhost:3000/s/{urltiny}</p>
+							Object.entries(userUrls).map(([urlfull, urltiny],index) => (
+									<p key={index}>{urlfull} → http://localhost:3000/s/{urltiny}</p>
 							))
 						}
 					</div>
