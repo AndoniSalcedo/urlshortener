@@ -24,6 +24,8 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
 			cors().and()
 
+            headers().frameOptions().sameOrigin()
+
 			addFilterAfter(jsonAuthorizationFilter, UsernamePasswordAuthenticationFilter::class.java)
 			
 			authorizeRequests()
@@ -31,6 +33,7 @@ class WebSecurityConfig : WebSecurityConfigurerAdapter() {
             .antMatchers(HttpMethod.POST, "/api/shorter").permitAll()
             .antMatchers(HttpMethod.POST, "/api/qr").permitAll()
 			.antMatchers(HttpMethod.POST, "/ad/obtain").permitAll()
+            .antMatchers("/wstimer").permitAll()
 			.anyRequest().authenticated()
 		}
 	}
