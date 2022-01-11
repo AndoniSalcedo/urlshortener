@@ -18,6 +18,8 @@ import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import java.net.URI
+import java.util.concurrent.CountDownLatch
+import javax.websocket.*
 import org.springframework.http.*
 import org.springframework.util.*
 
@@ -29,6 +31,13 @@ class IntegrationTest {
 
     @Autowired
     lateinit var restTemplate: TestRestTemplate
+
+    private lateinit var container: WebSocketContainer
+
+    @BeforeEach
+    fun setup() {
+        container = ContainerProvider.getWebSocketContainer()
+    }
 
     // Checks that don't s
     @Test
@@ -131,4 +140,35 @@ class IntegrationTest {
         )
     }
 
+    @Test
+    fun testWebSockets() {
+        //Create Short URL
+        val response = shortUrl("https://www.netflix.com/", false)
+
+        //Test Websocket
+        val latch = CountDownLatch(1)
+        val list = mutableListOf<String>()
+
+        val client = WebSocketTestMessageHandler(list, latch)
+        container.connectToServer(client, URI("ws://localhost:$port/wstimer"))
+        latch.await()
+
+        assertEquals(1, list.size)
+        assertEquals("https://www.netflix.com/", list[0])
+    }
+
+}
+
+@ClientEndpoint
+class WebSocketTestMessageHandler(private val list: MutableList<String>, private val latch: CountDownLatch) {
+    @OnOpen
+    fun onOpen(session: Session) {
+        session.basicRemote.sendText("897a52b1");
+    }
+
+    @OnMessage
+    fun onMessage(message: String, session: Session) {
+        list.add(message)
+        latch.countDown()
+    }
 }
