@@ -7,6 +7,8 @@ import com.unizar.urlshorter.controllers.QrOut
 import com.unizar.urlshorter.controllers.RegisterIn
 import com.unizar.urlshorter.controllers.LoginIn
 import com.unizar.urlshorter.controllers.LoginOut
+import com.unizar.urlshorter.repositories.UserRepository
+import com.unizar.urlshorter.repositories.UrlRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.assertj.core.api.Assertions.assertThat
@@ -27,7 +29,7 @@ import org.springframework.http.*
 import org.springframework.util.*
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class IntegrationTest {
+class IntegrationTest() {
 
     @LocalServerPort
     var port = 0
@@ -117,22 +119,119 @@ class IntegrationTest {
         assertThat(response_qr.body?.qr).isEqualTo("")
     }
 
-    // Try login
+    // Try register
+    @Test
+    fun register_test(){
+
+        val headers = HttpHeaders()
+        val data = RegisterIn("FernandoGarciaVillaran@gmail.com", "JaviFields", "12345")
+
+        // Register the new user
+        var response = restTemplate.postForEntity(
+            "http://localhost:$port/auth/register",
+            HttpEntity(data, headers), Void::class.java
+        )
+
+        // Check Created
+        // assertThat(response.statusCode).isEqualTo(HttpStatus.CREATED)
+    }
+
+    // Test that it is not posible to register yourseft 2 times
+    @Test
+    fun duplicated_register_test(){
+
+        val headers = HttpHeaders()
+        val data = RegisterIn("FernandoGarciaVillaran@gmail.com", "JaviFields", "12345")
+
+        // Register the new user
+        var response = restTemplate.postForEntity(
+            "http://localhost:$port/auth/register",
+            HttpEntity(data, headers), Void::class.java
+        )
+
+        // Check Created
+        // assertThat(response.statusCode).isEqualTo(HttpStatus.CREATED)
+
+        // Register again the same user
+        var response_vis =restTemplate.postForEntity(
+            "http://localhost:$port/auth/register",
+            HttpEntity(data, headers), Void::class.java
+        )
+
+        // Error because the user is already created
+        assertThat(response_vis.statusCode).isEqualTo(HttpStatus.CONFLICT)
+    }
+
+    // Try register
     @Test
     fun login_test(){
 
-        /* 
-
         val headers = HttpHeaders()
+        val data = RegisterIn("FernandoGarciaVillaran@gmail.com", "JaviFields", "12345")
 
-        val data = 
-
-        restTemplate.postForEntity(
-            "http://localhost:$port/api/shorter",
-            HttpEntity(data, headers), ShortOut::class.java
+        // Register the new user
+        var response = restTemplate.postForEntity(
+            "http://localhost:$port/auth/register",
+            HttpEntity(data, headers), Void::class.java
         )
 
-        */
+        // Check Created
+        // assertThat(response.statusCode).isEqualTo(HttpStatus.CREATED)
+
+        // Do login
+        val data_2 = LoginIn("FernandoGarciaVillaran@gmail.com", "12345")
+        var response_2 = restTemplate.postForEntity(
+            "http://localhost:$port/auth/login",
+            HttpEntity(data_2, headers), LoginOut::class.java
+        )
+
+        // Check Created
+        assertThat(response_2.statusCode).isEqualTo(HttpStatus.OK)
+
+    }
+
+    @Test
+    fun login_bad_password_test(){
+
+        val headers = HttpHeaders()
+        val data = RegisterIn("FernandoGarciaVillaran@gmail.com", "JaviFields", "12345")
+
+        // Register the new user
+        var response = restTemplate.postForEntity(
+            "http://localhost:$port/auth/register",
+            HttpEntity(data, headers), Void::class.java
+        )
+
+        // Check Created
+        // assertThat(response.statusCode).isEqualTo(HttpStatus.CREATED)
+
+        // Do login with bad password
+        val data_2 = LoginIn("FernandoGarciaVillaran@gmail.com", "12344")
+        var response_2 = restTemplate.postForEntity(
+            "http://localhost:$port/auth/login",
+            HttpEntity(data_2, headers), LoginOut::class.java
+        )
+
+        // Check that the code is ok
+        assertThat(response_2.statusCode).isEqualTo(HttpStatus.UNAUTHORIZED)
+
+    }
+
+    @Test
+    fun login_noUser_created_test(){
+
+        val headers = HttpHeaders()
+    
+        // Do login with an no registered user
+        val data = LoginIn("LoginNoUserCreated@gmail.com", "12345")
+        var response = restTemplate.postForEntity(
+            "http://localhost:$port/auth/login",
+            HttpEntity(data, headers), LoginOut::class.java
+        )
+
+        // Check that the code is ok
+        assertThat(response.statusCode).isEqualTo(HttpStatus.NOT_FOUND)
+
     }
     
     @Test
