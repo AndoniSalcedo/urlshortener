@@ -3,15 +3,15 @@ import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
     //id("org.springframework.boot") version "2.5.5" //apply false
-    //id("io.spring.dependency-management") version "1.0.11.RELEASE" //apply false
-    //kotlin("plugin.spring") version "1.5.31" //apply false
 
     kotlin("jvm") version "1.5.31"
-    kotlin("plugin.spring") version "1.3.72"
+    kotlin("plugin.spring") version "1.5.31"
     id("org.springframework.boot") version "2.3.3.RELEASE"
-    id("io.spring.dependency-management") version "1.0.10.RELEASE"
+    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+
     
 }
+
 
 group = "com.unizar"
 version = "0.0.1-SNAPSHOT"
@@ -20,6 +20,7 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 repositories {
 	mavenCentral()
 }
+
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
@@ -40,16 +41,12 @@ dependencies {
     implementation("com.google.zxing:javase:3.3.2")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.boot:spring-boot-starter-web")
-    testImplementation("org.springframework.boot:spring-boot-starter-jdbc")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
-    testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    testImplementation("org.apache.httpcomponents:httpclient")
+
 }
 
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+
+tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
         jvmTarget = "11"
