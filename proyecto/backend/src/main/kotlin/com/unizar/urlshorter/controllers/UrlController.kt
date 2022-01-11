@@ -37,7 +37,7 @@ data class ShortIn(
 )
 
 data class ShortOut(
-    var url: String 
+    var url: String?
 )
 
 data class QrIn(
