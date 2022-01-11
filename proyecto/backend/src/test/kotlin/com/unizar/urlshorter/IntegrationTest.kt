@@ -23,6 +23,7 @@ import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import java.net.URI
+import java.util.Random;
 import java.util.concurrent.CountDownLatch
 import javax.websocket.*
 import org.springframework.http.*
@@ -233,6 +234,175 @@ class IntegrationTest() {
         assertThat(response.statusCode).isEqualTo(HttpStatus.NOT_FOUND)
 
     }
+
+    // Test to create a url shorted with qr
+    // The sorther return the hash of the shorted url
+    // It always return the 201 code
+    @Test
+    fun createURI_rechable_user() {
+        val headers = HttpHeaders()
+        val data = RegisterIn("FernandoGarciaVillaran@gmail.com", "JaviFields", "12345")
+
+        // Register the new user
+        var response = restTemplate.postForEntity(
+            "http://localhost:$port/auth/register",
+            HttpEntity(data, headers), Void::class.java
+        )
+
+
+        // Check Created
+        // assertThat(response.statusCode).isEqualTo(HttpStatus.CREATED)
+
+        // Do login
+        val data_2 = LoginIn("FernandoGarciaVillaran@gmail.com", "12345")
+        var response_2 = restTemplate.postForEntity(
+            "http://localhost:$port/auth/login",
+            HttpEntity(data_2, headers), LoginOut::class.java
+        )
+
+        val token = response_2.body?.accessToken
+
+        // Check Created
+        assertThat(response_2.statusCode).isEqualTo(HttpStatus.OK)
+
+        // Create the url short
+        val response_3 = shortUrlUser("https://www.thingiverse.com/liang0108/designs", false, token)
+        assertThat(response_3.statusCode).isEqualTo(HttpStatus.CREATED)
+        // Created ok
+        assertThat(response_3.body?.url).isEqualTo("3993eb78")
+        
+        // Get the QR
+        val response_qr_3 = getQR("https://www.thingiverse.com/liang0108/designs")
+        assertThat(response_qr_3.statusCode).isEqualTo(HttpStatus.CREATED)
+        // Empty response means that the url has been shorted correctly
+        assertThat(response_qr_3.body?.qr).isEqualTo("")
+    }
+
+    // Test to create a url shorted with qr
+    // The sorther return the hash of the shorted url
+    // It always return the 201 code
+    @Test
+    fun createURI_not_recheable_user() {
+
+        val headers = HttpHeaders()
+        val data = RegisterIn("FernandoGarciaVillaran@gmail.com", "JaviFields", "12345")
+
+        // Register the new user
+        var response = restTemplate.postForEntity(
+            "http://localhost:$port/auth/register",
+            HttpEntity(data, headers), Void::class.java
+        )
+
+
+        // Check Created
+        // assertThat(response.statusCode).isEqualTo(HttpStatus.CREATED)
+
+        // Do login
+        val data_2 = LoginIn("FernandoGarciaVillaran@gmail.com", "12345")
+        var response_2 = restTemplate.postForEntity(
+            "http://localhost:$port/auth/login",
+            HttpEntity(data_2, headers), LoginOut::class.java
+        )
+
+        val token = response_2.body?.accessToken
+
+        // Check Created
+        assertThat(response_2.statusCode).isEqualTo(HttpStatus.OK)
+
+        // Create the url short
+        val response_3 = shortUrlUser("http://pepito_que_sabe_mucho_de_ssh_2.com/", true, token)
+        assertThat(response_3.statusCode).isEqualTo(HttpStatus.CREATED)
+        // Created ok
+        assertThat(response_3.body?.url).isEqualTo("9b4fb1e7")
+        
+        // Get the QR
+        val response_qr_3 = getQR("http://pepito_que_sabe_mucho_de_ssh_2.com/")
+        assertThat(response_qr_3.statusCode).isEqualTo(HttpStatus.CREATED)
+        // Empty response means that the url has been shorted correctly
+        assertThat(response_qr_3.body?.qr).isEqualTo(null)
+    }
+
+    // Get come qr created previously from a recheable
+    @Test
+    fun getQR_ok_user(){
+        val headers = HttpHeaders()
+        val data = RegisterIn("FernandoGarciaVillaran@gmail.com", "JaviFields", "12345")
+
+        // Register the new user
+        var response = restTemplate.postForEntity(
+            "http://localhost:$port/auth/register",
+            HttpEntity(data, headers), Void::class.java
+        )
+
+
+        // Check Created
+        // assertThat(response.statusCode).isEqualTo(HttpStatus.CREATED)
+
+        // Do login
+        val data_2 = LoginIn("FernandoGarciaVillaran@gmail.com", "12345")
+        var response_2 = restTemplate.postForEntity(
+            "http://localhost:$port/auth/login",
+            HttpEntity(data_2, headers), LoginOut::class.java
+        )
+
+        val token = response_2.body?.accessToken
+
+        // Check Created
+        assertThat(response_2.statusCode).isEqualTo(HttpStatus.OK)
+
+        // Create the url short
+        val response_3 = shortUrlUser("https://www.codewars.com/", true, token)
+        assertThat(response_3.statusCode).isEqualTo(HttpStatus.CREATED)
+        // Created ok
+        assertThat(response_3.body?.url).isEqualTo("19a9b0bf")
+        
+        // Get the QR
+        val response_qr_3 = getQR("https://www.codewars.com/")
+        assertThat(response_qr_3.statusCode).isEqualTo(HttpStatus.CREATED)
+        // Empty response means that the url has been shorted correctly
+        assertThat(response_qr_3.body?.qr).isEqualTo("iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQAAAAB0CZXLAAABW0lEQVR4Xu2XO5KDQAxENUXgkCP4KBzNPtochSMQElA7262G3TK4dmN3TQd8Zl5CSyOJaP8ozgtndUDqgNQBqQOSExCpRwxtiamVLV+LHZDP9YHLcsdtu/0segH4cux8yY6y3RbebAGGO6L5AylbgJcM95j4NastgMxmpTPsoCvxtoh9OLALS79x3uUExLAyq1tbEe7nm1LsAXBpnrCDMwygrQy3dpwA9RjUYBzeys1xnl588AC4xLt8KPLBEBjWcY7g/HCvsuOS9gYAiq8CDG6CDxgKmdxuQA71kfODzjBdeTXKAchWOj05DSLcOUagv/oBbDU1gj7ghy2U3HbALqYzf0ivWe0B8MuR1UdxYv9JzgzIZ/13x1GjHAF2VA71GAOrTDn54ATk7MvgczbMDUuAs/0MD3LSv3QcA4CXI9zkPAGmMWpU4alF1BVuP+APdUDqgNQBqQNSB6Rv94cVrD5CwBkAAAAASUVORK5CYII=")    
+    }
+
+    // Create a url shorted but not the qr
+    @Test
+    fun getQR_notCreated_user(){
+        val headers = HttpHeaders()
+        val data = RegisterIn("FernandoGarciaVillaran@gmail.com", "JaviFields", "12345")
+
+        // Register the new user
+        var response = restTemplate.postForEntity(
+            "http://localhost:$port/auth/register",
+            HttpEntity(data, headers), Void::class.java
+        )
+
+
+        // Check Created
+        // assertThat(response.statusCode).isEqualTo(HttpStatus.CREATED)
+
+        // Do login
+        val data_2 = LoginIn("FernandoGarciaVillaran@gmail.com", "12345")
+        var response_2 = restTemplate.postForEntity(
+            "http://localhost:$port/auth/login",
+            HttpEntity(data_2, headers), LoginOut::class.java
+        )
+
+        val token = response_2.body?.accessToken
+
+        // Check Created
+        assertThat(response_2.statusCode).isEqualTo(HttpStatus.OK)
+
+        // Create the url short
+        val response_3 = shortUrlUser("https://www.w3schools.com/", false, token)
+        assertThat(response_3.statusCode).isEqualTo(HttpStatus.CREATED)
+        // Created ok
+        assertThat(response_3.body?.url).isEqualTo("3382cfdc")
+        
+        // Get the QR
+        val response_qr_3 = getQR("https://www.w3schools.com/")
+        assertThat(response_qr_3.statusCode).isEqualTo(HttpStatus.CREATED)
+        // Empty response means that the url has been shorted correctly
+        assertThat(response_qr_3.body?.qr).isEqualTo("")    
+    }
     
     @Test
     fun testWebSockets() {
@@ -265,6 +435,21 @@ class IntegrationTest() {
 
         return restTemplate.postForEntity(
             "http://localhost:$port/api/shorter",
+            HttpEntity(data, headers), ShortOut::class.java
+        )
+    }
+
+    private fun shortUrlUser(u: String, q: Boolean, b: String?): ResponseEntity<ShortOut> {
+        val headers = HttpHeaders()
+        headers.add("Authorization",b)
+
+        val data = ShortIn(
+            url = u,
+            qr = q
+        ) 
+
+        return restTemplate.postForEntity(
+            "http://localhost:$port/api/user/shorter",
             HttpEntity(data, headers), ShortOut::class.java
         )
     }
