@@ -62,14 +62,19 @@ class UrlController(
     @Async("taskExecutor")
     fun checkUrl(url: Url) {
  
-        val client = HttpClient.newBuilder().build();
-        val req = HttpRequest.newBuilder()
-            .uri(URI.create(url.url))
-            .build();
-        client.send(req, HttpResponse.BodyHandlers.ofString())
-        //If res.status != 2** throw a exception and dont save the url salid
-        url.validateUrl()
-        urlRepository.save(url)   
+        try{
+            val client = HttpClient.newBuilder().build();
+            val req = HttpRequest.newBuilder()
+                .uri(URI.create(url.url))
+                .build();
+            client.send(req, HttpResponse.BodyHandlers.ofString())
+            //If res.status != 2** throw a exception and dont save the url salid
+            url.validateUrl()
+            urlRepository.save(url) 
+        }catch(e: Exception){
+                // 
+        }
+          
 
     }
 
@@ -87,7 +92,8 @@ class UrlController(
                 url.addQR()
             }
             //Check if url us correct
-            checkUrl(url) // a encolar
+                checkUrl(url) // a encolar
+            
             //Save url
             url.shorter
 
