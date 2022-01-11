@@ -49,10 +49,6 @@ class IntegrationTest {
         assertThat(response.statusCode).isEqualTo(HttpStatus.FORBIDDEN)
     }
 
-    ////////////////////////////////////////////////////
-    // R2 : La URI no se acortará si no es alcanzable //
-    ////////////////////////////////////////////////////
-
     // Test to create a url shorted with qr
     // The sorther return the hash of the shorted url
     // It always return the 201 code
@@ -89,10 +85,6 @@ class IntegrationTest {
         assertThat(response_qr.body?.qr).isEqualTo(null)
     }
 
-    //////////////////////////////////////////////////////////////////////
-    // R3 : La URI acortada se puede obtener codificada en un código QR //
-    //////////////////////////////////////////////////////////////////////
-
     // Get come qr created previously from a recheable
     @Test
     fun getQR_ok(){
@@ -125,13 +117,11 @@ class IntegrationTest {
         assertThat(response_qr.body?.qr).isEqualTo("")
     }
 
-    ////////////////////////////
-    // R6 : Login de usuarios //
-    ////////////////////////////
-
     // Try login
     @Test
-    fun getQR_notCreated(){
+    fun login_test(){
+
+        /* 
 
         val headers = HttpHeaders()
 
@@ -141,6 +131,25 @@ class IntegrationTest {
             "http://localhost:$port/api/shorter",
             HttpEntity(data, headers), ShortOut::class.java
         )
+
+        */
+    }
+    
+    @Test
+    fun testWebSockets() {
+        //Create Short URL
+        val response = shortUrl("https://www.netflix.com/", false)
+
+        //Test Websocket
+        val latch = CountDownLatch(1)
+        val list = mutableListOf<String>()
+
+        val client = WebSocketTestMessageHandler(list, latch)
+        container.connectToServer(client, URI("ws://localhost:$port/wstimer"))
+        latch.await()
+
+        assertEquals(1, list.size)
+        assertEquals("https://www.netflix.com/", list[0])
     }
 
     ////////////////////////
@@ -170,23 +179,6 @@ class IntegrationTest {
             "http://localhost:$port/api/qr",
             HttpEntity(data, headers), QrOut::class.java
         )
-    }
-
-    @Test
-    fun testWebSockets() {
-        //Create Short URL
-        val response = shortUrl("https://www.netflix.com/", false)
-
-        //Test Websocket
-        val latch = CountDownLatch(1)
-        val list = mutableListOf<String>()
-
-        val client = WebSocketTestMessageHandler(list, latch)
-        container.connectToServer(client, URI("ws://localhost:$port/wstimer"))
-        latch.await()
-
-        assertEquals(1, list.size)
-        assertEquals("https://www.netflix.com/", list[0])
     }
 
 }
