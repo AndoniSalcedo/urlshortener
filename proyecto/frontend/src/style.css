@@ -61,6 +61,14 @@ form{
 }
 
 button {
+    font-family: 'josefin';
+    src: url('./josefinsans-variablefont_wght-webfont.woff2') format('woff2'),
+         url('./josefinsans-variablefont_wght-webfont.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+
+    width: 120px;
+    height: 40px;
     border-radius: 4px;
     background-color: #e4db7f;
     color: black;
@@ -103,3 +111,4 @@ section.wait-page{
     padding: 25px;
     border-radius: 30px;
 }
+

@@ -84,10 +84,15 @@ const UrlPage = () => {
                         :
                         <p />
                     }
+                
                     <button type="button" className="btn" onClick={shortUrl}>Recortar</button>
-                    <button type="button" className="btn" onClick={() => { history.push('/signin') }}>SignIn</button>
-                    <button type="button" className="btn" onClick={() => { history.push('/signup') }}>Registrarse</button>
                     <button type="button" className="btn" onClick={getQr}>Mostrar QR</button>
+                    <div>
+                        <button type="button" className="btn" onClick={() => { history.push('/signin') }}>SignIn</button>
+                    </div>
+                    <div>
+                        <button type="button" className="btn" onClick={() => { history.push('/signup') }}>Registrarse</button>
+                    </div>
                     {qr !== "" ?
                         <>
                             <p>Código QR: </p>

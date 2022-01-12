@@ -14,6 +14,9 @@ const WaitPage = (props) => {
     const [ad1, setAd1] = useState("")
     const [ad2, setAd2] = useState("")
 
+    const [time,setTime] = useState(10);
+
+
     const redirectFromURL = async() => {
         try {
             window.location.replace(longURL)
@@ -48,9 +51,14 @@ const WaitPage = (props) => {
     
         ws.current.onmessage = (event) => {
             setlongURL(event.data)
+            window.location.replace(event.data)
             console.log("OnMessage: '" + event.data + "'")
         }
     }, []); //Warning here, ignore
+
+    useEffect(() => {
+        time > 0 && setTimeout(() => setTime(time - 1), 1000);
+      }, [time]);
 
     return (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gridGap: 20 }}>
@@ -61,13 +69,13 @@ const WaitPage = (props) => {
             </div>
             <div>
                 <section className="wait-page">
-                Waiting 10 seconds to give you the link...
-                
-                <p>[DEBUG] Short URL ID = {shortURL}</p>
-                { longURL !== "" //Show redirect button when we've received the URL from the server
-                    ? <button type="button" className="btn" onClick={redirectFromURL}>Ir a '{longURL}'</button>
+                Waiting {time} seconds to give you the link...
+            
+                {/* { longURL !== "" //Show redirect button when we've received the URL from the server
+
+                    ? <div><button type="button" className="btn" onClick={redirectFromURL}>Ir a '{longURL}'</button></div>
                     : null
-                }
+                } */}
                 </section>
             </div>
             <div>
